@@ -17,8 +17,8 @@ function make_graph(filename::String)
 
     #Lit les edges et les stocke dans la liste edges
     for i = 1 : length(edges_brut)
-        n1 = node[findfirst(x -> name(x) == string(edges_brut[i][1]), node)]
-        n2 = node[findfirst(x -> name(x) == string(edges_brut[i][2]), node)]
+        n1 = nodes[findfirst(x -> name(x) == string(edges_brut[i][1]), nodes)]
+        n2 = nodes[findfirst(x -> name(x) == string(edges_brut[i][2]), nodes)]
         edge = Edge((n1, n2), weights[i])
         edges[i] = edge
     end
