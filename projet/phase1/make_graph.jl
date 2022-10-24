@@ -7,8 +7,7 @@
 function make_graph(filename::String)
     header = read_header(filename)
     nodes_brut = read_nodes(header, filename)
-    edges_brut = read_edges(header, filename)[1]
-    weights = read_edges(header, filename)[2]
+    edges_brut, weights = read_edges(header, filename)
     T = typeof(nodes_brut[1]) #Récupère le type T des nodes et des edges pour la bonne déclaration des vecteurs nodes et edges
     nodes=Vector{Node{T}}(undef, length(nodes_brut))
     edges=Vector{Edge{T}}(undef, length(edges_brut))
@@ -22,8 +21,8 @@ function make_graph(filename::String)
 
     #Lit les edges et les stocke dans la liste edges
     for i = 1 : length(edges_brut)
-        n1 = Node(string(edges_brut[i][1]), nodes_brut[edges_brut[i][1]])
-        n2 = Node(string(edges_brut[i][2]), nodes_brut[edges_brut[i][2]])
+        n1 = nodes[findfirst(x -> name(x) == string(edges_brut[i][1]), nodes)]
+        n2 = nodes[findfirst(x -> name(x) == string(edges_brut[i][2]), nodes)]
         edge = Edge((n1, n2), weights[i])
         edges[i] = edge
     end
