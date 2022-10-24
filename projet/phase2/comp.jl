@@ -26,8 +26,6 @@ comp2 se place "sous" comp1 et la racine de comp1 devient la racine de la compos
 function merge!(comp1::Comp{T}, comp2::Comp{T}) where T
     r1 = get_root(comp1)
     r2 = get_root(comp2)
-    l1 = length(comp1.children)
-    l2 = length(comp2.children)
     for i = 1 : length(comp2.children) 
         r = comp2.children[i]
         if r[1] != r2 #on ajoute tous les noeuds de comp2 à comp1 à l'exception de (r2, r2) car r1 sera la racine
