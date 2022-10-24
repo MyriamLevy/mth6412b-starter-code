@@ -30,4 +30,4 @@ C3=merge!(C1,C2)
 
 #Test Fonction kruskal avec exemble cours
 Kr= test_cours()
-sum_Kr=
+sum_Kr= sum(x -> weight(x),Kr)
