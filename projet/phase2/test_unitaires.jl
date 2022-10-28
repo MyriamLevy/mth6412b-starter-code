@@ -19,8 +19,8 @@ e = Node("e",1)
 f = Node("f",1)
 g = Node("g",1)
 
-C1=Comp(a,[(a,a),(a,b),(a,c),(c,d)])
-C2=Comp(e,[(e,e),(e,f),(e,g)])
+C1=Comp(a,[(a,a),(b,a),(c,a),(d,c)])
+C2=Comp(e,[(e,e),(f,e),(g,e)])
 C3=merge!(C1,C2)
 
 @test length(get_children(C3))==7 # Pour verifier le nombres d'arete que nous sommes devrions avoir
@@ -30,4 +30,5 @@ C3=merge!(C1,C2)
 
 #Test Fonction kruskal avec exemble cours
 Kr= test_cours()
-sum_Kr= sum(x -> weight(x),Kr)
+@test Kr[2]==37
+#sum_Kr= sum(x -> weight(x),Kr)
