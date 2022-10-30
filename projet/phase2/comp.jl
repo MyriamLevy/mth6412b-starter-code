@@ -11,7 +11,7 @@ abstract type AbstractChild{T} end
 Chaque enfant est un tuple de la forme (enfant, parent) et a un attribut rang."""
 mutable struct Child{T} <: AbstractChild{T}
     nodes::Tuple{Node{T}, Node{T}} #chaque enfant est un tuple de la forme (enfant, parent)
-    rank::Intm
+    rank::Union{Nothing, Int}
 end
 
 """Type représentant les composantes connexes d'un graphe.
