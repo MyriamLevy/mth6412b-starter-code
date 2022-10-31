@@ -5,6 +5,8 @@ include("../phase 1/graph.jl")
 include("../phase 1/read_stsp.jl")
 include("../phase 1/make_graph.jl")
 include("../phase 2/comp.jl")
+include("priority_item.jl")
+include("queue.jl")
 
 function prim(graph::Graph{T}) where T
     q = PriorityQueue{PriorityItem{Tuple{Node{T}, Node{T}}}}()
