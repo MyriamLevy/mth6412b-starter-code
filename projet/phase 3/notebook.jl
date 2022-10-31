@@ -15,7 +15,13 @@ md"""### Union via le rang
 #### Question sur le rang
 ##### Montrer que le rang d'un nœud est toujours inférieur à |S| - 1
 Procédons par récurrence sur |S|.
-- |S| = 1 : il n'y a qu'un seul nœud dans l'arbre donc son rang vaut 0 et 0 \leq 1 - 1 donc la propriété est vraie
+- |S| = 1 : il n'y a qu'un seul nœud dans l'arbre donc son rang vaut 0 et 0 est inférieur à 1 - 1 donc la propriété est vraie.
+- Soient n et m deux entiers supérieurs ou égaux à 1 tels que la propriété soit vraie pour les graphes à n ou m sommets. Soient G et G' deux arbres tels que |S| = n et |S'| = m. Soit G'' l'arbre obtenu en procédant à l'union via le rang de G et G'. |S''| = n + m et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de G'' et au plus égal à max(n-1, m-1) + 1 = max(n, m) ce qui est inférieur ou égal n + m - 1 car n et m sont plus grands que 1. Donc la propriété est vraie pour n + m. 
+Ainsi, quel que soit |S|, le rang d'un nœud est toujours inférieur à |S| - 1.
+
+##### Montrer que le rang d'un nœud est toujours inférieur à |S| - 1
+
+
 
 
 #### Modification de la structure *Comp*
