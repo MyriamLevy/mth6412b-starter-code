@@ -1,4 +1,3 @@
-# code Heuristique1
 function find_root(comp::Comp{T}) where T
     root = comp.children[1]
     i = 1
