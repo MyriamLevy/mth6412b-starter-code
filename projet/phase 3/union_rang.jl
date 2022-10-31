@@ -1,3 +1,5 @@
+"""Fonction permettant de trouver la racine d'une composante connexe en parcourant 
+la liste des nœuds qui la composent."""
 function find_root(comp::Comp{T}) where T
     root = comp.children[1]
     i = 1
@@ -9,6 +11,9 @@ function find_root(comp::Comp{T}) where T
     return root
 end
 
+"""Fonction implémentant l'union via le rang des composantes connexes comp1 et comp2.
+La fonction modifie l'une des deux composantes en lui ajoutant la deuxième et renvoie
+la composante modifiée."""
 function union_rank!(comp1::Comp{T}, comp2::Comp{T}) where T
     root1 = find_root(comp1)
     root2 = find_root(comp2)

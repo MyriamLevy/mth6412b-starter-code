@@ -7,8 +7,8 @@ include("../phase1/make_graph.jl")
 
 function prim(graph::Graph{T}) where T
     q = PriorityQueue{PriorityItem{Tuple{Node{T}, Node{T}}}}()
-    tree = Edge{T}[]
     #les items de priorité sont de la forme (nœud, parent)
+    tree = Edge{T}[]
     s = nodes(graph)[1]
     push!(q, PriorityItem(0, (s, s)))
     number_of_nodes = nb_nodes(graph)

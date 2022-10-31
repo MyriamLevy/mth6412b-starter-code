@@ -1,3 +1,4 @@
+"""Fonction qui fait de la racine d'une composante connexe le parent direct de chaque nœud"""
 function path_compr!(comp::Comp{T}) where T
     root = comp.root
     l = length(comp.children)
