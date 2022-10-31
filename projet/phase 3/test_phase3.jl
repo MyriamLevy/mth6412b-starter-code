@@ -1,7 +1,7 @@
 using Test
-include("heuristique1.jl")
+include("union_rang.jl")
 
-@testset "heuristique 1" begin
+@testset "Union via le rang" begin
     a = Node("a", 0)
     b = Node("b", 0)
     c = Node("c", 0)
@@ -51,7 +51,7 @@ include("heuristique1.jl")
     @test rank >= max(rank_1,rank_2)
     @test root == root_1 || root == root_2
     @test len == len_1 + len_2
-    
+
     for child in children_1
         @test in_comp(comp,get_nodes(child)[1])
     end
