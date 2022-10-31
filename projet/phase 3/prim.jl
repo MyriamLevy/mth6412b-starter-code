@@ -1,9 +1,12 @@
 #prim
-include("../phase1/node.jl")
-include("../phase1/edge.jl")
-include("../phase1/graph.jl")
-include("../phase1/read_stsp.jl")
-include("../phase1/make_graph.jl")
+include("../phase 1/node.jl")
+include("../phase 1/edge.jl")
+include("../phase 1/graph.jl")
+include("../phase 1/read_stsp.jl")
+include("../phase 1/make_graph.jl")
+include("../phase 2/comp.jl")
+include("priority_item.jl")
+include("queue.jl")
 
 function prim(graph::Graph{T}) where T
     q = PriorityQueue{PriorityItem{Tuple{Node{T}, Node{T}}}}()
