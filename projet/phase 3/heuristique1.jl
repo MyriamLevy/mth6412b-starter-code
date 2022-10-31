@@ -1,55 +1,53 @@
 # code Heuristique1
-function find_children(parent::Node{T},comp_children::Vector{Tuple{Node{T},Node{T},Int}})
-    idx=[]
-     for i=1:length(comp_children)
-         if parent==comp_children[i][2]
-             push!(idx,i)
-         end
-     end
-     return idx
- end
- 
- function find_parent(children::Node{T},comp_children::Vector{Tuple{Node{T},Node{T},Int}})
-      for i=1:length(comp_children)
-          if children==comp_children[i][1]
-              return i
-              break
-          end
-      end
-  end
- 
-  function height(comp::Comp_ranked)
-     heighest=comp.children[1][3]
-     for i=1:length(comp.children)
-         if comp.children[i][3]>highest
-             heighest=comp.children[i][3]
-         end
-     end
-     return heighest
-  end
- 
- 
- function ranked_comp!(parent::Node{T},comp::Comp_ranked)
-     idx=find_children(parent,comp.children)
-     j=find_parent(comp.children[idx[1]][1],comp.children)
-         for i=1:length(idx)
-             comp.children[i][3]=comp.children[j][3]+1
-             ranked_comp!(comp.children[i][1],comp)
-         end
-     return comp
- end
+function find_root(comp::Comp{T}) where T
+    root = comp.children[1]
+    i = 1
+    l = length(comp.children)
+    while root.nodes[2] != root.nodes[1] && i < l
+        i = i+1
+        root = comp.children[i]
+    end
+    return root
+end
 
 function union_rank!(comp1::Comp{T}, comp2::Comp{T}) where T
-    comp1_rkd=ranked_comp!(comp1.root,comp1)
-    comp2_rkd=ranked_comp!(comp2.root,comp2)
-    height_comp1=height(comp1_rkd)
-    height_comp2=height(comp2_rkd)
-
-    if height_comp1==height_comp2 || height_comp1>height_comp2 #on choisit la racine de comp1 comme parent de comp2
-        new_comp=merge!(comp1_rkd,comp2_rkd)
-     elseif height_comp2>height_comp1 #on choisit la racine de comp2 comme parent de comp1
-        new_comp=merge!(comp2_rkd,comp1_rkd)
-    end
-    return new_comp
+    root1 = find_root(comp1)
+    root2 = find_root(comp2)
+    rank1 = get_rank(root1)
+    rank2 = get_rank(root2)
+    if rank1 > rank2 
+        merge!(comp1, comp2) #on peut utiliser notre fonction merge! qui ne modifie pas les rangs
+        return comp1
+    elseif rank2 > rank1
+        merge!(comp2, comp1)
+        return comp2
+    else
+        merge!(comp1, comp2)
+        root1.rank = rank1 + 1
+        return comp1
+    end 
 end
+
+a = Node("a", 0)
+b = Node("b", 0)
+c = Node("c", 0)
+d = Node("d", 0)
+e = Node("e", 0)
+f = Node("f", 0)
+g = Node("g", 0)
+h = Node("h", 0)
+i = Node("i", 0)
+
+child_a = Child((a,a), 2)
+child_b = Child((b,a), 1)
+child_c = Child((c,a), 1)
+child_d = Child((d,b), 0)
+child_e = Child((e,e), 2)
+child_f = Child((f,e), 0)
+child_g = Child((g,e), 1)
+child_h = Child((h,e), 0)
+child_i = Child((i,g), 0)
+
+comp_1 = Comp(a, [child_a, child_b, child_c, child_d])
+comp_2 = Comp(e, [child_e, child_f, child_g, child_h, child_i])
 

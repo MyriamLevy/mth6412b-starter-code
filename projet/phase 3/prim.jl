@@ -15,7 +15,7 @@ function prim(graph::Graph{T}) where T
     number_of_edges = nb_edges(graph)
     graph_edges = graph.edges
     for i = 2 : number_of_nodes
-        push!(q, PriorityItem(100, (nodes(graph)[i], nodes(graph)[i])))
+        push!(q, PriorityItem(typemax(Int64), (nodes(graph)[i], nodes(graph)[i])))
     end
     while !is_empty(q)
         s = popfirst!(q)
@@ -39,7 +39,7 @@ function prim(graph::Graph{T}) where T
             end
         end
     end
-    return tree
+    return tree, sum(x -> weight(x), tree)
 end
 
 #Création des noeuds
