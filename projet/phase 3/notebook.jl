@@ -13,16 +13,17 @@ md"""Abdou Samad Dicko(2037205), Clélia Merel(2163025), Myriam Lévy(2225114)""
 # ╔═╡ a6dad034-da4f-48c8-8046-c6f9988c034e
 md"""### Union via le rang
 #### Question sur le rang
-##### Montrer que le rang d'un nœud est toujours inférieur à |S| - 1
-Procédons par récurrence sur |S|.
-- |S| = 1 : il n'y a qu'un seul nœud dans l'arbre donc son rang vaut 0 et 0 est inférieur à 1 - 1 donc la propriété est vraie.
-- Soient n et m deux entiers supérieurs ou égaux à 1 tels que la propriété soit vraie pour les graphes à n ou m sommets. Soient G et G' deux arbres tels que |S| = n et |S'| = m. Soit G'' l'arbre obtenu en procédant à l'union via le rang de G et G'. |S''| = n + m et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de G'' et au plus égal à max(n-1, m-1) + 1 = max(n, m) ce qui est inférieur ou égal n + m - 1 car n et m sont plus grands que 1. Donc la propriété est vraie pour n + m. 
-Ainsi, quel que soit |S|, le rang d'un nœud est toujours inférieur à |S| - 1.
+##### Montrer que le rang d'un nœud est toujours inférieur à $|S| - 1$
+Montrons que cette propriété est vraie pour $|S| = 1$ puis qu'elle est préservée par l'union via le rang.
+- Si $|S| = 1$, il n'y a qu'un seul nœud dans l'arbre donc son rang vaut $0$ et $0 \le 1 - 1 = 0$ donc la propriété est vraie.
+- Soient $n$ et $m$ deux entiers supérieurs ou égaux à $1$ et $G$ et $G'$ deux arbres tels que $|S| = n$ et $|S'| = m$. On suppose que la propriété est vraie pour les nœuds de $G$ et $G'$. Soit $G''$ l'arbre obtenu en procédant à l'union via le rang de $G$ et $G'$. $|S''| = n + m$ et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de $G''$ et au plus égal à $max(n-1, m-1) + 1 = max(n, m) \le n + m - 1$ car $n, m \ge 1$. Donc la propriété est vraie pour $G''$. 
+Ainsi, quel que soit $|S|$, le rang d'un nœud est toujours inférieur à $|S| - 1$.
 
-##### Montrer que le rang d'un nœud est toujours inférieur à |S| - 1
-
-
-
+##### Montrer que le rang d'un nœud est toujours inférieur à $\lfloor log_2(|S|) \rfloor$
+Montrons que cette propriété est vraie pour $|S| = 1$ puis qu'elle est préservée par l'union via le rang.
+- Si $|S| = 1$, il n'y a qu'un seul nœud dans l'arbre donc son rang vaut $0$ et $0 \le log_2(1) = 0$ donc la propriété est vraie.
+- Soient $n$ et $m$ deux entiers supérieurs ou égaux à $1$ et G et G' deux arbres tels que $|S| = n$ et $|S'| = m$. On suppose que la propriété est vraie pour les nœuds de $G$ et $G'$. Soit G'' l'arbre obtenu en procédant à l'union via le rang de $G$ et $G'$. Si $n \ne m$, on a $|S''| = n + m$ et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de $G''$ et au plus égal à $max(\lfloor log_2(n) \rfloor, \lfloor log_2(m) \rfloor) \le \lfloor log_2(n + m) \rfloor$. Si $n = m$, on a $|S''| = 2n$ et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de $G''$ et au plus égal à $\lfloor log_2(n) \rfloor + 1 = \lfloor log_2(n) \rfloor + \lfloor log_2(2) \rfloor \le \lfloor log_2(n) + log_2(2) \rfloor = \lfloor log_2(2n) \rfloor$. Donc la propriété est vraie pour $G''$. 
+Ainsi, quel que soit $|S|$, le rang d'un nœud est toujours inférieur à $\lfloor log_2(|S|) \rfloor$.
 
 #### Modification de la structure *Comp*
 Cette partie correspond au fichier *comp.jl* du dossier *phase 2*.
@@ -146,7 +147,56 @@ On rappelle que l'association (enfant, parent) pour les nœuds d'une composante 
 """
 
 # ╔═╡ 51485498-d252-4881-9b65-0dda76d3b305
+md"""### Algorithme de Prim
+Cette partie correspond au fichier *prim.jl*.
 
+On a d'abord récupéré les fichiers *queue.jl* et *priority_item.jl* du Pr. Orban qui implémentent une structure de file de priorité. La fonction *popfirst!* du fichier *queue.jl* a été modifiée à la ligne 43 pour qu'elle renvoie l'item donc la valeur numérique de la priorité est la plus petite car c'est ce qui correspond pour nous à la priorité la plus importante puisqu'elle représente une arête de poids minimal. 
+
+La fonction prim commence par créer la file de priorité qui contiendra les tuples (nœud, parent) et la liste qui contiendra l'arbre. On choisit arbitrairement le premier nœud du graphe pour commencer notre arbre en lui attribuant une priorité égale à $0$. Initialement, tous les nœuds sont leur propre parent et à l'exception du premier, ils ont la valeur numérique de priorité la plus élevée possible : 
+```julia
+function prim(graph::Graph{T}) where T
+    q = PriorityQueue{PriorityItem{Tuple{Node{T}, Node{T}}}}()
+    tree = Edge{T}[]
+    s = nodes(graph)[1]
+    push!(q, PriorityItem(0, (s, s)))
+    number_of_nodes = nb_nodes(graph)
+    number_of_edges = nb_edges(graph)
+    graph_edges = graph.edges
+    for i = 2 : number_of_nodes
+        push!(q, PriorityItem(typemax(Int64), (nodes(graph)[i], nodes(graph)[i])))
+    end
+```
+Tant que la file n'est pas vide, on sort l'élement de plus haute priorité et on l'ajoute à l'arbre. Puis on parcourt la liste des arêtes et si une arête relie cet élément à un nœud qui n'est pas encore dans l'arbre avec une arête plus légère que celle qui le reliait précédemment à l'arbre, alors le parent de ce nœud devient l'élément qu'on a sorti et sa priorité le poids de cette arête : 
+```julia
+	while !is_empty(q)
+        s = popfirst!(q)
+        push!(tree, Edge(s.data, s.priority))
+        for i = 1 : number_of_edges
+            e = graph_edges[i]
+            if e.nodes[1] == s.data[1]
+                t = e.nodes[2]
+                w = e.weight
+                j = findfirst(x -> x.data[1] == t, q.items)
+                if j != nothing && priority(q.items[j]) > w
+                    q.items[j] = PriorityItem(w, (t, s.data[1]))
+                end
+            elseif e.nodes[2] == s.data[1]
+                t = e.nodes[1]
+                w = e.weight
+                j = findfirst(x -> x.data[1] == t, q.items)
+                if j != nothing && priority(q.items[j]) > w
+                    q.items[j] = PriorityItem(w, (t, s.data[1]))
+                end
+            end
+        end
+    end
+```
+Enfin, la fonction renvoie l'arbre et son poids : 
+```julia
+	return tree, sum(x -> weight(x), tree)
+end
+```
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -167,7 +217,7 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╔═╡ Cell order:
 # ╟─3fd47618-5938-11ed-322f-4f2c6fb83f27
 # ╟─ecb53564-1f4f-4415-8743-ea0656e9efa8
-# ╠═a6dad034-da4f-48c8-8046-c6f9988c034e
+# ╟─a6dad034-da4f-48c8-8046-c6f9988c034e
 # ╠═1aaeebf9-7bc0-44de-b564-3a149ebbdd74
 # ╠═51485498-d252-4881-9b65-0dda76d3b305
 # ╟─00000000-0000-0000-0000-000000000001
