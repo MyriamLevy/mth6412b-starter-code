@@ -4,6 +4,12 @@
 using Markdown
 using InteractiveUtils
 
+# ╔═╡ ec5478d8-bd1a-490f-8fb4-1f2c72bba926
+include("prim.jl")
+
+# ╔═╡ 5a6bcce1-0698-47c7-89b6-3eb9e4a68e70
+include("../phase 2/kruskal.jl")
+
 # ╔═╡ 3fd47618-5938-11ed-322f-4f2c6fb83f27
 md"""## Projet du voyageur de commerce : Phase 2"""
 
@@ -22,7 +28,7 @@ Ainsi, quel que soit $|S|$, le rang d'un nœud est toujours inférieur à $|S| -
 ##### Montrer que le rang d'un nœud est toujours inférieur à $\lfloor log_2(|S|) \rfloor$
 Montrons que cette propriété est vraie pour $|S| = 1$ puis qu'elle est préservée par l'union via le rang.
 - Si $|S| = 1$, il n'y a qu'un seul nœud dans l'arbre donc son rang vaut $0$ et $0 \le log_2(1) = 0$ donc la propriété est vraie.
-- Soient $n$ et $m$ deux entiers supérieurs ou égaux à $1$ et G et G' deux arbres tels que $|S| = n$ et $|S'| = m$. On suppose que la propriété est vraie pour les nœuds de $G$ et $G'$. Soit G'' l'arbre obtenu en procédant à l'union via le rang de $G$ et $G'$. Si $n \ne m$, on a $|S''| = n + m$ et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de $G''$ et au plus égal à $max(\lfloor log_2(n) \rfloor, \lfloor log_2(m) \rfloor) \le \lfloor log_2(n + m) \rfloor$. Si $n = m$, on a $|S''| = 2n$ et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de $G''$ et au plus égal à $\lfloor log_2(n) \rfloor + 1 = \lfloor log_2(n) \rfloor + \lfloor log_2(2) \rfloor \le \lfloor log_2(n) + log_2(2) \rfloor = \lfloor log_2(2n) \rfloor$. Donc la propriété est vraie pour $G''$. 
+- Soient $n$ et $m$ deux entiers supérieurs ou égaux à $1$ et $G$ et $G'$ deux arbres tels que $|S| = n$ et $|S'| = m$. On suppose que la propriété est vraie pour les nœuds de $G$ et $G'$. Soit $G''$ l'arbre obtenu en procédant à l'union via le rang de $G$ et $G'$. Si $n \ne m$, on a $|S''| = n + m$ et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de $G''$ et au plus égal à $max(\lfloor log_2(n) \rfloor, \lfloor log_2(m) \rfloor) \le \lfloor log_2(n + m) \rfloor$. Si $n = m$, on a $|S''| = 2n$ et d'après l'algorithme de l'union via le rang et l'hypothèse de récurrence, le rang d'un nœud de $G''$ et au plus égal à $\lfloor log_2(n) \rfloor + 1 = \lfloor log_2(n) \rfloor + \lfloor log_2(2) \rfloor \le \lfloor log_2(n) + log_2(2) \rfloor = \lfloor log_2(2n) \rfloor$. Donc la propriété est vraie pour $G''$. 
 Ainsi, quel que soit $|S|$, le rang d'un nœud est toujours inférieur à $\lfloor log_2(|S|) \rfloor$.
 
 #### Modification de la structure *Comp*
@@ -57,7 +63,7 @@ end
 
 Les fonctions *merge!* et *kruskal* ont été modifées pour tenir compte de ce nouvel attribut mais elles ne s'en servent pas particulièrement :
 - *merge!* réunit deux composantes connexes en préservant les rangs de tous les *Child*, le nouveau *Child* attribuant comme parent de la deuxième racine la première racine a le même rang que la deuxième racine (lignes 53 et 56 de *comp.jl*)
-- *kruskal* crée des composantes connexes avec des *Child* de rang 0 et ne modifie jamais le rang (ligne 18 de *kruskal.jl*)
+- *kruskal* crée des composantes connexes avec des *Child* de rang $0$ et ne modifie jamais le rang (ligne 18 de *kruskal.jl*)
 
 #### Implémentation de l'heuristique
 Cette partie correspond au fichier *union_rang.jl*
@@ -126,8 +132,8 @@ function path_compr!(comp::Comp{T}) where T
 ```
 
 Puis on parcourt la liste des nœuds de la composante en distinguant deux cas : 
-- si le nœud est la racine, c'est-à-dire qu'il est son propre parent, on met son rang à 1 et on ne fait rien d'autre
-- sinon, on attribue à ce nœud la racine comme parent et on met son rang à 0 
+- si le nœud est la racine, c'est-à-dire qu'il est son propre parent, on met son rang à $1$ et on ne fait rien d'autre
+- sinon, on attribue à ce nœud la racine comme parent et on met son rang à $0$ 
 
 ```julia
 	l = length(comp.children)
@@ -150,9 +156,9 @@ On rappelle que l'association (enfant, parent) pour les nœuds d'une composante 
 md"""### Algorithme de Prim
 Cette partie correspond au fichier *prim.jl*.
 
-On a d'abord récupéré les fichiers *queue.jl* et *priority_item.jl* du Pr. Orban qui implémentent une structure de file de priorité. La fonction *popfirst!* du fichier *queue.jl* a été modifiée à la ligne 43 pour qu'elle renvoie l'item donc la valeur numérique de la priorité est la plus petite car c'est ce qui correspond pour nous à la priorité la plus importante puisqu'elle représente une arête de poids minimal. 
+On a d'abord récupéré les fichiers *queue.jl* et *priority_item.jl* du Pr. Orban qui implémentent une structure de file de priorité. La fonction *popfirst!* du fichier *queue.jl* a été modifiée à la ligne 43 pour qu'elle renvoie l'item dont la valeur numérique de la priorité est la plus petite car c'est ce qui correspond pour nous à la priorité la plus importante puisqu'elle représente une arête de poids minimal. 
 
-La fonction prim commence par créer la file de priorité qui contiendra les tuples (nœud, parent) et la liste qui contiendra l'arbre. On choisit arbitrairement le premier nœud du graphe pour commencer notre arbre en lui attribuant une priorité égale à $0$. Initialement, tous les nœuds sont leur propre parent et à l'exception du premier, ils ont la valeur numérique de priorité la plus élevée possible : 
+La fonction *prim* commence par créer la file de priorité qui contiendra les tuples (nœud, parent) et la liste qui contiendra l'arbre. On choisit arbitrairement le premier nœud du graphe pour commencer notre arbre en lui attribuant une priorité égale à $0$. Initialement, tous les nœuds sont leur propre parent et à l'exception du premier, ils ont la valeur numérique de priorité la plus élevée possible : 
 ```julia
 function prim(graph::Graph{T}) where T
     q = PriorityQueue{PriorityItem{Tuple{Node{T}, Node{T}}}}()
@@ -198,6 +204,19 @@ end
 ```
 """
 
+# ╔═╡ e13c0083-3f57-44b2-8bad-d6f7d4b45e52
+md"""### Tests et exemples
+Cette partie correspond au fichier *test_phase3.jl*.
+
+Dans ce fichier, on test nos deux heuristiques sur deux petits graphes. On test également l'algorithme de Prim sur le graphe du cours et on obtient bien le même arbre de recouvrement minimal. On peut également tester l'algorithme sur une instance de TSP et voir qu'on obtient un arbre de même poids qu'avec l'algorithme de Kruskal : 
+"""
+
+# ╔═╡ 91e4094c-b8c2-456e-8aff-f517ef1029c0
+prim(make_graph("../../instances/stsp/bayg29.tsp"))
+
+# ╔═╡ 28fcef60-2aff-4970-9b32-0381abf045f1
+kruskal(make_graph("../../instances/stsp/bayg29.tsp"))
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -218,7 +237,12 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╟─3fd47618-5938-11ed-322f-4f2c6fb83f27
 # ╟─ecb53564-1f4f-4415-8743-ea0656e9efa8
 # ╟─a6dad034-da4f-48c8-8046-c6f9988c034e
-# ╠═1aaeebf9-7bc0-44de-b564-3a149ebbdd74
+# ╟─1aaeebf9-7bc0-44de-b564-3a149ebbdd74
 # ╠═51485498-d252-4881-9b65-0dda76d3b305
+# ╟─e13c0083-3f57-44b2-8bad-d6f7d4b45e52
+# ╟─ec5478d8-bd1a-490f-8fb4-1f2c72bba926
+# ╟─5a6bcce1-0698-47c7-89b6-3eb9e4a68e70
+# ╟─91e4094c-b8c2-456e-8aff-f517ef1029c0
+# ╟─28fcef60-2aff-4970-9b32-0381abf045f1
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

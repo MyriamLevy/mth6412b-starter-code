@@ -8,6 +8,8 @@ include("../phase 2/comp.jl")
 include("priority_item.jl")
 include("queue.jl")
 
+"""Fonction renvoyant un arbre de recouvrement minimal pour le graphe graph à l'aide de
+l'algortihme de Prim."""
 function prim(graph::Graph{T}) where T
     q = PriorityQueue{PriorityItem{Tuple{Node{T}, Node{T}}}}()
     #les items de priorité sont de la forme (nœud, parent)
@@ -29,7 +31,8 @@ function prim(graph::Graph{T}) where T
                 t = e.nodes[2]
                 w = e.weight
                 j = findfirst(x -> x.data[1] == t, q.items)
-                if j != nothing && priority(q.items[j]) > w
+                if j != nothing && priority(q.items[j]) > w 
+                #il faut vérifier que le nœud relié à s est encore dans la file
                     q.items[j] = PriorityItem(w, (t, s.data[1]))
                 end
             elseif e.nodes[2] == s.data[1]
@@ -44,35 +47,3 @@ function prim(graph::Graph{T}) where T
     end
     return tree, sum(x -> weight(x), tree)
 end
-
-#Création des noeuds
-n_a = Node("a",1)
-n_b = Node("b",1)
-n_c = Node("c",1)
-n_d = Node("d",1)
-n_e = Node("e",1)
-n_f = Node("f",1)
-n_g = Node("g",1)
-n_h = Node("h",1)
-n_i = Node("i",1)
-N_exemple= [n_a,n_b, n_c,n_d,n_e,n_f,n_g,n_h,n_i]
-# Création des arêtes 
-e_1= Edge((n_a,n_b),4)
-e_2= Edge((n_a,n_h),8)
-e_3= Edge((n_b,n_h),11)
-e_4= Edge((n_c,n_b),8)
-e_5= Edge((n_c,n_d),7)
-e_6= Edge((n_c,n_i),2)
-e_7= Edge((n_d,n_e),9)
-e_8= Edge((n_d,n_f),14)
-e_9= Edge((n_e,n_f),10)
-e_10=Edge((n_f,n_g),2)
-e_11= Edge((n_g,n_i),6)
-e_12= Edge((n_g,n_h),1)
-e_13= Edge((n_h,n_i),7)
-e_14= Edge((n_c,n_f),4)
-E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14]
-
-# Creation du graph
-graph= Graph("Exemple",N_exemple,E_exemple)
-
