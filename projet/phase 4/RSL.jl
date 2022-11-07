@@ -15,11 +15,9 @@ function prefix_visit(tree::Vector{Edge{T}},s::Node{T}) where T
     for x in tree
         if x.nodes[1] == s 
             push!(children, x.nodes[2])
-        end
-        if x.nodes[2] == s 
+        elseif x.nodes[2] == s 
             push!(children, x.nodes[1])
-        end
-        if x.nodes[2] != s && x.nodes[1] != s
+        else
             push!(subtree,x) 
         end       
     end
@@ -38,15 +36,13 @@ function RSL(graph::Graph{T}) where T
     root = nodes(graph)[1]
     tour = prefix_visit(tree,root)
     push!(tour,tour[1])
-    # weight = 0
-    # for i = 1 : length(tour)-1
-    #     println(tour[i],tour[i+1])
-    #     index = findfirst(x -> nodes(x)==(tour[i],tour[i+1]) || nodes(x)==(tour[i+1],tour[i]),edges(graph))
-    #     println(index)
-    #     edge = edges(graph)[index]
-    #     weight += edge.weight
-    # end
-    return tour#,weight
+    weight = 0
+    for i = 1 : length(tour)-1
+        index = findfirst(x -> nodes(x)==(tour[i],tour[i+1]) || nodes(x)==(tour[i+1],tour[i]),edges(graph))
+        edge = edges(graph)[index]
+        weight += edge.weight
+    end
+    return tour,weight
 end
 
 
@@ -79,6 +75,6 @@ e_14= Edge((n_c,n_f),4)
 E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14]
 
 # Creation du graph
-graph= Graph("Exemple",N_exemple,E_exemple)
+graph = make_graph("/Users/alayacare/Documents/Documents - Clélia/PolyMtl/MTH6412/mth6412b-starter-code/instances/stsp/bayg29.tsp")
 
 RSL(graph)
