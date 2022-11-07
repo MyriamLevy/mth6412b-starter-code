@@ -8,6 +8,7 @@ function path_compr!(comp::Comp{T}) where T
             comp.children[i] = (child, root)
         end
     end
+    comp.rank = 1
     return comp
 end
         
