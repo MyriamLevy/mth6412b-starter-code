@@ -1,5 +1,6 @@
-include("../phase 2/kruskal.jl")
 include("../phase 3/prim.jl")
+include("../phase 2/kruskal.jl")
+
 
 
 
