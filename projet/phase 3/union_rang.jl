@@ -15,10 +15,8 @@ end
 La fonction modifie l'une des deux composantes en lui ajoutant la deuxième et renvoie
 la composante modifiée."""
 function union_rank!(comp1::Comp{T}, comp2::Comp{T}) where T
-    root1 = find_root(comp1)
-    root2 = find_root(comp2)
-    rank1 = get_rank(root1)
-    rank2 = get_rank(root2)
+    rank1 = get_rank(comp1)
+    rank2 = get_rank(comp2)
     if rank1 > rank2 
         merge!(comp1, comp2) #on peut utiliser notre fonction merge! qui ne modifie pas les rangs
         return comp1
@@ -27,7 +25,7 @@ function union_rank!(comp1::Comp{T}, comp2::Comp{T}) where T
         return comp2
     else
         merge!(comp1, comp2)
-        root1.rank = rank1 + 1
+        comp1.rank = rank1 + 1
         return comp1
     end 
 end
