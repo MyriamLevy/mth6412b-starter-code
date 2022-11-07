@@ -1,10 +1,10 @@
 
-include("../phase1/node.jl")
-include("../phase1/edge.jl")
-include("../phase1/graph.jl")
-include("../phase1/read_stsp.jl")
-include("../phase1/make_graph.jl")
-include("kruskal.jl")
+#include("../phase1/node.jl")
+#include("../phase1/edge.jl")
+#include("../phase1/graph.jl")
+#include("../phase1/read_stsp.jl")
+#include("../phase1/make_graph.jl")
+#include("kruskal.jl")
 
 
 """Crée l'arbre de l'exemple des notes de cours puis teste l'algorithme de Kruskal dessus"""
