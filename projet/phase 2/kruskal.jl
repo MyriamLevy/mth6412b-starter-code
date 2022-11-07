@@ -15,7 +15,7 @@ function kruskal(graph::Graph{T}) where T
     #on ne se soucie pas du rang des nœuds, il reste à 0 pour tout le monde
     for i = 1 : number_of_nodes
         n = nodes(graph)[i]
-        push!(liste_comp, Comp(n, [Child((n, n), 0)]))
+        push!(liste_comp, Comp(n, [(n, n)]))
     end
 
     i = 1
