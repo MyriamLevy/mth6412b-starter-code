@@ -11,16 +11,21 @@ function prefix_visit(tree::Vector{Edge{T}},s::Node{T}) where T
     children = Node{T}[]
     visit_order = Node{T}[]
     for x in tree
+
         if x.nodes[1] == s && x.nodes[2] != s
+
             push!(children, x.nodes[2])
         end
         if x.nodes[2] == s && x.nodes[1] != s
+
             push!(children, x.nodes[1])
         end
         if x.nodes[2] != s && x.nodes[1] != s
+
             push!(subtree,x) 
         end       
     end
+    push!(visit_order,s)
     for child in children
         visit_order = vcat(visit_order,prefix_visit(subtree,child))
     end
@@ -31,9 +36,15 @@ end
 
 """implémentation de l'algorithme de Rosenkrantz, Stearns et Lewis"""
 function RSL(graph::Graph{T}) where T
-    tree, weight = prim(graph)
+    tree = prim(graph)[1]
     root = nodes(graph)[1]
     tour = prefix_visit(tree,root)
+    push!(tour,tour[1])
+    weight = 0
+    for i = 1 : length(tour-1)
+        edge = findfirst(x -> nodes(x)==(tour[i],tour[i+1]))
+        weight += 
+    return tour
 end
 
 
@@ -68,5 +79,4 @@ E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14]
 # Creation du graph
 graph= Graph("Exemple",N_exemple,E_exemple)
 
-tree, poids = prim(graph)
-prefix_visit(tree,n_a)
+RSL(graph)
