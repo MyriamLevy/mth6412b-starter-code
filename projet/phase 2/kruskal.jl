@@ -4,7 +4,6 @@ include("comp.jl")
 l'algortihme de Kruskal."""
 function kruskal(graph::Graph{T}) where T
 
-    number_of_edges = length(edges(graph))
     number_of_nodes = length(nodes(graph))
 
     A = sort(edges(graph), by = x -> weight(x)) #liste des arêtes triées par poids
@@ -13,6 +12,7 @@ function kruskal(graph::Graph{T}) where T
     liste_comp = Comp{T}[] #contiendra les composantes connexes du graphe
 
     #on initie liste_comp avec chaque noeud qui est une composante connexe
+    #on ne se soucie pas du rang des nœuds, il reste à 0 pour tout le monde
     for i = 1 : number_of_nodes
         n = nodes(graph)[i]
         push!(liste_comp, Comp(n, [(n, n)]))

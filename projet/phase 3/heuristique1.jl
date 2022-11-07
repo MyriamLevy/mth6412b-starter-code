@@ -1,1 +1,0 @@
-# code Heuristique1

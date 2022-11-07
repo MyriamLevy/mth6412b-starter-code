@@ -9,8 +9,9 @@ root est le noeud-racine de la composante et les autres noeuds de la composante,
 ainsi que le noeud-racine, sont dans children. 
 Chaque noeud est couplé à son parent. root est couplé à lui-même."""
 mutable struct Comp{T} <: AbstractComp{T}
+    rank::Int
     root::Node{T}
-    children::Vector{Tuple{Node{T}, Node{T}}} #chaque enfant est un tuple de la forme (enfant, parent)
+    children::Vector{Tuple{Node{T}, Node{T}}} #chaque enfant est un tuple de la forme (enfant, parent) 
 end
 
 """Renvoie la racine de la composante connexe"""
@@ -19,15 +20,18 @@ get_root(comp::AbstractComp) = comp.root
 """Renvoie les noeuds de la composante connexe"""
 get_children(comp::AbstractComp) = comp.children
 
+"""Renvoie le rang d'un élément de la composante connexe"""
+get_rank(comp::AbstractComp) = comp.rank 
+
 """Fonction permettant de fusionner deux composantes connexes comp1 et comp2.
 
 Cette fonction modifie comp1 en lui ajoutant les noeuds de comp2.
-comp2 se place "sous" comp1 et la racine de comp1 devient la racine de la composante connexe finale."""
+comp2 se place "sous" comp1 et la racine de comp1 devient la racine de la composante connexe finale.
+Ici, on ne se soucie pas du rang des composantes, aucun rang n'est modifié."""
 function merge!(comp1::Comp{T}, comp2::Comp{T}) where T
     r1 = get_root(comp1)
     r2 = get_root(comp2)
-    l1 = length(comp1.children)
-    l2 = length(comp2.children)
+    rang = 0
     for i = 1 : length(comp2.children) 
         r = comp2.children[i]
         if r[1] != r2 #on ajoute tous les noeuds de comp2 à comp1 à l'exception de (r2, r2) car r1 sera la racine
@@ -43,7 +47,7 @@ end
 La fonction parcourt la liste des enfants de comp."""
 function in_comp(comp::Comp{T}, node::Node{T}) where T
     for i = 1 : length(get_children(comp))
-        if get_children(comp)[i][1] == node
+        if get_nodes(get_children(comp)[i])[1] == node
             return true
         end
     end
