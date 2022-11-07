@@ -1,3 +1,4 @@
+include("../phase 2/kruskal.jl")
 include("../phase 3/prim.jl")
 
 
@@ -11,17 +12,13 @@ function prefix_visit(tree::Vector{Edge{T}},s::Node{T}) where T
     children = Node{T}[]
     visit_order = Node{T}[]
     for x in tree
-
-        if x.nodes[1] == s && x.nodes[2] != s
-
+        if x.nodes[1] == s 
             push!(children, x.nodes[2])
         end
-        if x.nodes[2] == s && x.nodes[1] != s
-
+        if x.nodes[2] == s 
             push!(children, x.nodes[1])
         end
         if x.nodes[2] != s && x.nodes[1] != s
-
             push!(subtree,x) 
         end       
     end
@@ -36,15 +33,19 @@ end
 
 """implémentation de l'algorithme de Rosenkrantz, Stearns et Lewis"""
 function RSL(graph::Graph{T}) where T
-    tree = prim(graph)[1]
+    tree = kruskal(graph)[1]
     root = nodes(graph)[1]
     tour = prefix_visit(tree,root)
     push!(tour,tour[1])
-    weight = 0
-    for i = 1 : length(tour-1)
-        edge = findfirst(x -> nodes(x)==(tour[i],tour[i+1]))
-        weight += 
-    return tour
+    # weight = 0
+    # for i = 1 : length(tour)-1
+    #     println(tour[i],tour[i+1])
+    #     index = findfirst(x -> nodes(x)==(tour[i],tour[i+1]) || nodes(x)==(tour[i+1],tour[i]),edges(graph))
+    #     println(index)
+    #     edge = edges(graph)[index]
+    #     weight += edge.weight
+    # end
+    return tour#,weight
 end
 
 
