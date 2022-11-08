@@ -75,6 +75,5 @@ e_14= Edge((n_c,n_f),4)
 E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14]
 
 # Creation du graph
-graph = make_graph("/Users/alayacare/Documents/Documents - Clélia/PolyMtl/MTH6412/mth6412b-starter-code/instances/stsp/brazil58.tsp")
-println(graph)
+graph = make_graph("/Users/alayacare/Documents/Documents - Clélia/PolyMtl/MTH6412/mth6412b-starter-code/instances/stsp/brg180.tsp")
 RSL(graph)

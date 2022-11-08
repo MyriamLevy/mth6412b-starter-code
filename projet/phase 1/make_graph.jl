@@ -10,7 +10,6 @@ function make_graph(filename::String)
     edges_brut, weights = read_edges(header, filename)
     if length(nodes_brut)==0
         number_of_nodes = parse(Int64, header["DIMENSION"])
-        println(number_of_nodes)
         T = typeof(0)
         nodes=Vector{Node{T}}(undef, number_of_nodes)
         edges=Vector{Edge{T}}(undef, length(edges_brut))
