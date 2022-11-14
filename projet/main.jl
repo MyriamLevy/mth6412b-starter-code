@@ -1,9 +1,6 @@
-include("phase 1/node.jl")
-include("phase 1/edge.jl")
-include("phase 1/read_stsp.jl")
-include("phase 1/make_graph.jl")
-include("phase 1/graph.jl")
-include("phase 2/kruskal.jl")
+include("phase 3/union_rang.jl")
+include("phase 3/compr_chemins.jl")
+include("phase 4/RSL.jl")
 
 
 function main(filename::String)
