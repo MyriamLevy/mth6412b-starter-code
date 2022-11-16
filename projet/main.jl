@@ -5,5 +5,12 @@ include("phase 4/RSL.jl")
 
 function main(filename::String)
     graph = make_graph(filename)
-    kruskal(graph)
+    weights = []
+    for i = 1 : length(nodes(graph))
+        # j = rand(1:length(nodes(graph)))
+        # println(j)
+        tree,weight = RSL(graph,i)
+        push!(weights,weight)
+    end
+    println(weights)
 end
