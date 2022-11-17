@@ -4,7 +4,7 @@ function find_root(comp::Comp{T}) where T
     root = comp.children[1]
     i = 1
     l = length(comp.children)
-    while root.nodes[2] != root.nodes[1] && i < l
+    while root[2] != root[1] && i < l
         i = i+1
         root = comp.children[i]
     end

@@ -10,6 +10,13 @@ function one_tree(graph::Graph{T}) where T
     tree_graph = Graph("tree_graph", tree_nodes, tree_edges)
     tree = kruskal(tree_graph)
     push!(tree, root_edges[1], root_edges[2])
-    tree
+    return tree
 end
 
+function alpha_nearness(graph::Graph{T}, edge::Edge{T}, tree::Vector{Edge{T}}) where T
+    root = nodes[1]
+    if edge in tree
+        return 0
+    elseif root in edge.nodes
+        return edge.weight - tree[length(tree)].weight
+    else

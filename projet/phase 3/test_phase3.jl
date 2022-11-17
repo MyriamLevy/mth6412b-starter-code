@@ -25,8 +25,8 @@ include("prim.jl")
     child_h = (h,e)
     child_i = (i,g)
     list_children = [child_a,child_b,child_c,child_d,child_e,child_f,child_g,child_h,child_i]
-    comp_1 = Comp(a, [child_a, child_b, child_c, child_d])
-    comp_2 = Comp(e, [child_e, child_f, child_g, child_h, child_i])
+    comp_1 = Comp(0, a, [child_a, child_b, child_c, child_d])
+    comp_2 = Comp(0, e, [child_e, child_f, child_g, child_h, child_i])
 
     root_1 = find_root(comp_1)
     root_2 = find_root(comp_2)
@@ -38,10 +38,10 @@ include("prim.jl")
 
     @test root_1 == child_a
     @test root_2 == child_e
-    @test get_nodes(root_1)[1] == get_root(comp_1)
-    @test get_nodes(root_1)[2] == get_root(comp_1)
-    @test get_nodes(root_2)[1] == get_root(comp_2)
-    @test get_nodes(root_2)[2] == get_root(comp_2)
+    @test root_1[1] == get_root(comp_1)
+    @test root_1[2] == get_root(comp_1)
+    @test root_2[1] == get_root(comp_2)
+    @test root_2[2] == get_root(comp_2)
 
     rank_1 = get_rank(comp_1)
     rank_2 = get_rank(comp_2)
@@ -86,8 +86,8 @@ end
     child_h = (h,e)
     child_i = (i,g)
     list_children = [child_a,child_b,child_c,child_d,child_e,child_f,child_g,child_h,child_i]
-    comp_1 = Comp(a, [child_a, child_b, child_c, child_d])
-    comp_2 = Comp(e, [child_e, child_f, child_g, child_h, child_i])
+    comp_1 = Comp(0, a, [child_a, child_b, child_c, child_d])
+    comp_2 = Comp(0, e, [child_e, child_f, child_g, child_h, child_i])
 
     root_1 = find_root(comp_1)
     root_2 = find_root(comp_2)
@@ -113,11 +113,11 @@ end
     @test get_root(compr_2) == get_root(comp_2)
 
     for child in children_compr_1
-        @test get_nodes(child)[2] == get_root(compr_1)
+        @test child[2] == get_root(compr_1)
     end
 
     for child in children_compr_2
-        @test get_nodes(child)[2] == get_root(compr_2)
+        @test child[2] == get_root(compr_2)
     end
 end
 
@@ -159,5 +159,5 @@ end
     print(tree)
 
     @test sum == 37
-    @test length(tree) == 9 #tree contient également l'arête ((n_a,n_a),0)
+    @test length(tree) == 8
 end
