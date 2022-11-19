@@ -1,7 +1,7 @@
 abstract type AbstractPriorityItem{T} end
 
 mutable struct PriorityItem{T} <: AbstractPriorityItem{T}
-    priority::Int
+    priority::Float64
     data::T
 end
 
