@@ -38,8 +38,8 @@ function subgrad_opt(graph::Graph{T}) where T
     while v != zeros(nb_nodes) && k < 1000
         k = k + 1
         step = step/k
-        p = p + step * v
-        tree = one_tree(change_weight(graph, p))
+        p = step * v
+        tree = one_tree(change_weight!(graph, p))
         w = max(w, sum(x -> weight(x), tree) - 2*sum(p))
         d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
         v = d - deg_tour
