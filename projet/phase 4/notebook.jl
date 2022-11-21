@@ -78,7 +78,7 @@ function subgrad_opt(graph::Graph{T}) where T
     nb_nodes = length(graph.nodes)
     k = 0
     step = 1
-    p = zeros(nb_nodes)
+    p_tot = zeros(nb_nodes)
 ```
 Puis on crée un premier *minimum 1-tree* et on calcule son poids et un vecteur contenant le degré de chaque nœud dans ce *minimum 1-tree*. Notre gradient est la différence entre ce vecteur et un vecteur de même taille ne contenant que des 2, c'est-à-dire le dégré de chaque nœud lorsque le *minimum 1-tree* est un tour. Le poids de ce premier *minimum 1-tree* est l'initialisation de notre borne inférieure sur le coût d'une tournée minimale : 
 
@@ -90,25 +90,105 @@ Puis on crée un premier *minimum 1-tree* et on calcule son poids et un vecteur 
     v = d - deg_tour
 ```
 
-Puis on rentre dans la boucle *while*. On fixe le maximum de passages à 100 si l'on n'a pas réussi à trouver un tour, c'est-à-dire si *v* n'est pas le vecteur nul. À chaque passage, on incrémente *k* de 1, on divise le pas par *k* et on met à jour le vecteur de modificationd des poids : 
+Puis on rentre dans la boucle *while*. On fixe le maximum de passages à 100 si l'on n'a pas réussi à trouver un tour, c'est-à-dire si *v* n'est pas le vecteur nul. À chaque passage, on incrémente *k* de 1, on divise le pas par *k* et on met à jour le vecteur de modification des poids : 
 
 ```julia
 	while v != zeros(nb_nodes) && k < 100 
         k = k + 1
         step = step/k
         p = step * v
+		p_tot = p_tot + p
 ```
-Puis on crée un nouveau *minimum 1-tree* dans le graphe modifié, on actualise notre borne inférieure en fonction de son poids et on calcule le nouveau gradient : 
+Puis on crée un nouveau *minimum 1-tree* dans le graphe modifié (on a seulement besoin d'ajouter le gradient car change_weight! modifie le graphe), on actualise notre borne inférieure en fonction du poids du *minimum 1-tree* et on calcule le nouveau gradient : 
 ```julia
 		tree = one_tree(change_weight!(graph, p)) 
-        w = max(w, sum(x -> weight(x), tree) - 2*sum(p))
+        w = max(w, sum(x -> weight(x), tree) - 2*sum(p_tot))
         d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : 	nb_nodes]
         v = d - deg_tour
     end
 ```
+Quand on sort de la boucle, si on a trouvé une tournée, on la renvoie ainsi que son poids. Sinon, on renvoie la borne inférieure : 
 
+```julia
+	if v == zeros(nb_nodes)
+        return tree, sum(x -> weight(x), tree) - 2*sum(p_tot)
+    else
+        return w
+    end
+end
+```
 
 ##### Seconde version
+Dans la seconde version *subgrad\_opt_bis*, on fait évoluer le pas comme indiqué en page 26 du rapport. On commence par récupérer le nombre de nœuds du graphe et on initialise le nombre de passages dans une période, le pas, la période et le vecteur de modification des poids. Le booléen *first_period* est nécessaire car le comportement est différent pendant la première période :
+
+```julia
+function subgrad_opt_bis(graph::Graph{T}) where T
+    nb_nodes = length(graph.nodes)
+    k = 1
+    step = 2
+    period = floor(nb_nodes/2)
+    first_period = true
+    p_tot = zeros(nb_nodes)
+```
+Comme précédemment, on crée un premier *minimum 1-tree* et on calcule la borne inférieure et le gradient : 
+
+```julia
+	tree = one_tree(graph)
+    w = sum(x -> weight(x), tree)
+    d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
+    deg_tour = ones(nb_nodes)*2
+    v = d - deg_tour
+```
+Puis on rentre dans la boucle *while*. Cette fois ci, les conditions d'arrêt sont trouver un tour ou avoir un pas ou une période nuls. On met à jour le vecteur de modification des poids et on crée un nouveau *minimum 1-tree* et on calcule son poids : 
+
+```julia
+	while step != 0 && period != 0 && v != zeros(nb_nodes)
+		p = step * v
+        p_tot = p_tot + p
+        tree = one_tree(change_weight!(graph, p)) 
+        w_bis = sum(x -> weight(x), tree) - 2*sum(p_tot)
+```
+
+En fonction de la valeur de ce nouveau poids par rapport à la borne inférieure et de l'étape à laquelle on se trouve dans la période, on modifie la borne inférieure, la période ou le pas : 
+
+```julia
+		if w < w_bis
+            w = w_bis
+            if k == period
+                period = 2*period
+            end
+        end
+        if w_bis < w && first_period
+            step = 1
+        end
+        if k == period
+            first_period = false
+            period = floor(period/2)
+            step = step/2
+            k = 0
+        end
+```
+
+Enfin, on incrémente *k* de 1 et on actualise le gradient : 
+
+```julia
+		k = k + 1
+        d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
+        v = d - deg_tour
+    end
+```
+La fonction se termine comme la première version : 
+
+```julia
+	if v == zeros(nb_nodes)
+        return tree, sum(x -> weight(x), tree) - 2*sum(p_tot)
+    else
+        return w
+    end
+end
+```
+
+Les fonctions *hk* et *hk_bis* permettent d'appliquer respectivement *subgrad_opt* et *subgrad\_opt_bis* à des fichiers .tsp.
 """
 
 # ╔═╡ f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
@@ -151,10 +231,10 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 """
 
 # ╔═╡ Cell order:
-# ╠═994c62e6-6856-11ed-1af7-25740f95cd38
-# ╠═713a3af0-6856-40a0-8e2b-6400a99b75ca
-# ╠═48f99302-57a9-46cf-af99-f837c9b1e39d
-# ╠═230f3695-486d-4124-a993-fe4023c4147e
+# ╟─994c62e6-6856-11ed-1af7-25740f95cd38
+# ╟─713a3af0-6856-40a0-8e2b-6400a99b75ca
+# ╟─48f99302-57a9-46cf-af99-f837c9b1e39d
+# ╟─230f3695-486d-4124-a993-fe4023c4147e
 # ╠═f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

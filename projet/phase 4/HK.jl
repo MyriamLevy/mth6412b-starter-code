@@ -56,7 +56,7 @@ function subgrad_opt(graph::Graph{T}) where T
         v = d - deg_tour
     end
     if v == zeros(nb_nodes)
-        return tree, w
+        return tree, sum(x -> weight(x), tree) - 2*sum(p_tot)
     else
         return w
     end
@@ -66,8 +66,8 @@ end
 permettant éventuellement de trouver une telle tournée. La différence avec subgrad_opt
 est le pas utilisé."""
 function subgrad_opt_bis(graph::Graph{T}) where T
-    k = 1
     nb_nodes = length(graph.nodes)
+    k = 1
     step = 2
     period = floor(nb_nodes/2)
     first_period = true
@@ -106,7 +106,7 @@ function subgrad_opt_bis(graph::Graph{T}) where T
         v = d - deg_tour
     end
     if v == zeros(nb_nodes)
-        return tree, w
+        return tree, sum(x -> weight(x), tree) - 2*sum(p_tot)
     else
         return w
     end
