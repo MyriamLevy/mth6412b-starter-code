@@ -116,20 +116,20 @@ md"""### Erreur relative avec une tournée optimale en fonction des algorithmes
 
 |  Fichier tsp | Solution optimale  | Solution HK  | Solution HK bis  |  Solution RSL Kruskal  | Solution RSL Prim  |  Erreur relative HK   |  Erreur relative HK bis  |  Erreur relative RSL Kruskal  | Erreur relative RSL Prim  |
 |---|---|---|---|---|---|---|---|---|---|
-| bayg29.tsp | 1610  |   |   |   |   |   |   |   |   |
-| bays29.tsp  | 2020  |   |   |   |   |   |   |   |   |
-| brazil58.tsp  | 25395  |   |   |   |   |   |   |   |   |
-| brg180.tsp  | 1950  |   |   |   |   |   |   |   |   |
-| dantzig42.tsp  |699 |   |   |   |   |   |   |   |   |
-| fri26.tsp  | 937  |   |   |   |   |   |   |   |   |
-| gr17.tsp  |2085 |   |   |   |   |   |   |   |   |
-| gr21.tsp  | 2707  |   |   |   |   |   |   |   |   |
-| gr24.tsp  |1272 |   |   |   |   |   |   |   |   |
-| gr48.tsp  |5046 |   |   |   |   |   |   |   |   |
-| gr120.tsp  |6942 |   |   |   |   |   |   |   |   |
-| hk48.tsp  |11461 |   |   |   |   |   |   |   |   |
-| pa561.tsp  |2763 |   |   |   |   |   |   |   |   |
-| swiss42.tsp  |1273 |   |   |   |   |   |   |   |   |
+| bayg29.tsp | 1610  | 1413,99  | 1599,50  | 2178  |   |   |   |   |   |
+| bays29.tsp  | 2020  | 1621,19  | 1938,39  |2621 |   |   |   |   |   |
+| brazil58.tsp  | 25395  | 18218,11  |   |29282   |   |   |   |   |   |
+| brg180.tsp  | 1950  | 1940  |   |259290   |   |   |   |   |   |
+| dantzig42.tsp  |699 | 619,27  | 657,37  |  951  |   |   |   |   |   |
+| fri26.tsp  | 937  | 762,90  | 858,50  |1112   |   |   |   |   |   |
+| gr17.tsp  |2085 | 1433,03  | 1892,62  | 2352  |   |   |   |   |   |
+| gr21.tsp  | 2707  | 2173,03  | 2581,67  | 3803  |   |   |   |   |   |
+| gr24.tsp  |1272 | 1036,27  | 1192,15  | 1607  |   |   |   |   |   |
+| gr48.tsp  |5046 | 4120,58  | 4819,08  | 6897  |   |   |   |   |   |
+| gr120.tsp  |6942 | 5954,50  |   |  9007  |   |   |   |   |   |
+| hk48.tsp  |11461 |10075,22  | 11172,79  | 15185  |   |   |   |   |   |
+| pa561.tsp  |2763 |   | 3915  |   |   |   |   |   |   |
+| swiss42.tsp  |1273 | 1104,27  | 1244,74  | 1641  |   |   |   |   |   |
 
 
 """
