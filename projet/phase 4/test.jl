@@ -29,5 +29,7 @@
  # Creation du graph
  graph= Graph("Exemple",N_exemple,E_exemple)
 
-RSL(graph,1)
- #subgrad_opt(graph)
+#RSL(graph,4)
+#subgrad_opt(graph)
+
+gbis = Graph("g", [n_a, n_b,n_c, n_d], [e_1, e_2, e_4, e_3, e_5, e_12])
