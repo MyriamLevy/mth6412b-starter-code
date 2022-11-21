@@ -33,10 +33,10 @@ end
 """Fonction donnant une borne inférieure sur une tournée minimale dans un graphe et 
 permettant éventuellement de trouver une telle tournée"""
 function subgrad_opt(graph::Graph{T}) where T
-    k = 0
     nb_nodes = length(graph.nodes)
+    k = 0
     step = 1
-    p = zeros(nb_nodes)
+    p_tot = zeros(nb_nodes)
     tree = one_tree(graph)
     w = sum(x -> weight(x), tree)
     d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
@@ -48,9 +48,10 @@ function subgrad_opt(graph::Graph{T}) where T
         k = k + 1
         step = step/k
         p = step * v
+        p_tot = p_tot + p
         tree = one_tree(change_weight!(graph, p)) 
         #comme change_weight! modifie le graphe à chque fois, on a juste besoin d'ajouter le gradient
-        w = max(w, sum(x -> weight(x), tree) - 2*sum(p))
+        w = max(w, sum(x -> weight(x), tree) - 2*sum(p_tot))
         d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
         v = d - deg_tour
     end
@@ -71,7 +72,7 @@ function subgrad_opt_bis(graph::Graph{T}) where T
     period = floor(nb_nodes/2)
     first_period = true
     #le comportement dans la boucle while est différent à la première période
-    p = zeros(nb_nodes)
+    p_tot = zeros(nb_nodes)
     tree = one_tree(graph)
     w = sum(x -> weight(x), tree)
     d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
@@ -81,9 +82,10 @@ function subgrad_opt_bis(graph::Graph{T}) where T
     v = d - deg_tour
     while step != 0 && period != 0 && v != zeros(nb_nodes) #si v ne contient que des 0 alors on a une tournée
         p = step * v
+        p_tot = p_tot + p
         tree = one_tree(change_weight!(graph, p)) 
         #comme change_weight! modifie le graphe à chque fois, on a juste besoin d'ajouter le gradient
-        w_bis = sum(x -> weight(x), tree) - 2*sum(p)
+        w_bis = sum(x -> weight(x), tree) - 2*sum(p_tot)
         if w < w_bis
             w = w_bis
             if k == period
