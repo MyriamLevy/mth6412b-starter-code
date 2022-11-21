@@ -31,8 +31,12 @@ end
 
 
 """implémentation de l'algorithme de Rosenkrantz, Stearns et Lewis"""
-function RSL(graph::Graph{T}, root_index::Int64) where T
-    tree = kruskal(graph)[1]
+function RSL(graph::Graph{T}, root_index::Int64, tree_algo::String) where T
+    if tree_algo == "kruskal"
+        tree = kruskal(graph)[1]
+    end
+    if tree_algo == "prim"
+        tree = prim(graph)[1]
     root = nodes(graph)[root_index]
     tour = prefix_visit(tree,root)
     push!(tour,tour[1])
