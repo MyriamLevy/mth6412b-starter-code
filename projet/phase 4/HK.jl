@@ -35,7 +35,7 @@ function subgrad_opt(graph::Graph{T}) where T
     d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
     deg_tour = ones(nb_nodes)*2
     v = d - deg_tour
-    while v != zeros(nb_nodes) && k < 1000
+    while v != zeros(nb_nodes) && k < 100
         k = k + 1
         step = step/k
         p = step * v
