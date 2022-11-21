@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.11
+# v0.19.16
 
 using Markdown
 using InteractiveUtils
@@ -35,22 +35,22 @@ Cette partie correspond au fichier *HK.jl*.
 # ╔═╡ f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
 md"""### Erreur relative avec une tournée optimale en fonction des algorithmes
 
-|  Fichier tsp | Solution optimale  | Solution HK  | Solution RSL  |Erreur relative HK   | Erreur relative RSL   |
-|---|---|---|---|---|---|
-| bayg29.tsp | 1610  |   |   |   |   |
-| bays29.tsp  | 2020  |   |   |   |   |
-| brazil58.tsp  | 25395  |   |   |   |   |
-| brg180.tsp  | 1950  |   |   |   |   |
-| dantzig42.tsp  |699 |   |   |   |   |
-| fri26.tsp  | 937  |   |   |   |   |
-| gr17.tsp  |2085 |   |   |   |   |
-| gr21.tsp  | 2707  |   |   |   |   |
-| gr24.tsp  |1272 |   |   |   |   |
-| gr48.tsp  |5046 |   |   |   |   |
-| gr120.tsp  |6942 |   |   |   |   |
-| hk48.tsp  |11461 |   |   |   |   |
-| pa561.tsp  |2763 |   |   |   |   |
-| swiss42.tsp  |1273 |   |   |   |   |
+|  Fichier tsp | Solution optimale  | Solution HK  | Solution HK bis  |  Solution RSL Kruskal  | Solution RSL Prim  |  Erreur relative HK   |  Erreur relative HK bis  |  Erreur relative RSL Kruskal  | Erreur relative RSL Prim  |
+|---|---|---|---|---|---|---|---|---|---|
+| bayg29.tsp | 1610  |   |   |   |   |   |   |   |   |
+| bays29.tsp  | 2020  |   |   |   |   |   |   |   |   |
+| brazil58.tsp  | 25395  |   |   |   |   |   |   |   |   |
+| brg180.tsp  | 1950  |   |   |   |   |   |   |   |   |
+| dantzig42.tsp  |699 |   |   |   |   |   |   |   |   |
+| fri26.tsp  | 937  |   |   |   |   |   |   |   |   |
+| gr17.tsp  |2085 |   |   |   |   |   |   |   |   |
+| gr21.tsp  | 2707  |   |   |   |   |   |   |   |   |
+| gr24.tsp  |1272 |   |   |   |   |   |   |   |   |
+| gr48.tsp  |5046 |   |   |   |   |   |   |   |   |
+| gr120.tsp  |6942 |   |   |   |   |   |   |   |   |
+| hk48.tsp  |11461 |   |   |   |   |   |   |   |   |
+| pa561.tsp  |2763 |   |   |   |   |   |   |   |   |
+| swiss42.tsp  |1273 |   |   |   |   |   |   |   |   |
 
 
 """
