@@ -37,6 +37,7 @@ function RSL(graph::Graph{T}, root_index::Int64, tree_algo::String) where T
     end
     if tree_algo == "prim"
         tree = prim(graph)[1]
+    end
     root = nodes(graph)[root_index]
     tour = prefix_visit(tree,root)
     push!(tour,tour[1])
