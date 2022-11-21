@@ -1,11 +1,14 @@
+"""Fonction construisant un 1-tree dans une graphe. Le premier nœud du graphe est le nœud spécial."""
 function one_tree(graph::Graph{T}) where T
     nodes = graph.nodes
     edges = graph.edges
     root = nodes[1]
-    indices = findall(x -> root in x.nodes, edges)
-    root_edges = sort(edges[indices], by = x -> weight(x))
-    tree_nodes = nodes[2 : nb_nodes(graph)]
-    tree_edges = edges[1 : nb_edges(graph)]
+    indices = findall(x -> root in x.nodes, edges) 
+    #on trouve toutes les arêtes contenant le premier nœud
+    root_edges = sort(edges[indices], by = x -> weight(x)) 
+    #on récupère ces arêtes et on les ordonne par poids croissant
+    tree_nodes = nodes[2 : nb_nodes(graph)] #on ne modifie pas le graphe
+    tree_edges = edges[1 : nb_edges(graph)] #on ne modifie pas le graphe 
     deleteat!(tree_edges, indices)
     tree_graph = Graph("tree_graph", tree_nodes, tree_edges)
     tree = prim(tree_graph)[1]
@@ -13,6 +16,8 @@ function one_tree(graph::Graph{T}) where T
     return tree
 end
 
+"""Le vecteur p contient un nombre associé à chaque nœud du graphe. Le poids de 
+chaque arête est modifié en y ajoutant le nombre associé à ses deux extrémités."""
 function change_weight!(graph::Graph{T}, p::Vector{Float64}) where T
     nodes = graph.nodes
     edges = graph.edges
@@ -25,6 +30,8 @@ function change_weight!(graph::Graph{T}, p::Vector{Float64}) where T
     return graph
 end
 
+"""Fonction donnant une borne inférieure sur une tournée minimale dans un graphe et 
+permettant éventuellement de trouver une telle tournée"""
 function subgrad_opt(graph::Graph{T}) where T
     k = 0
     nb_nodes = length(graph.nodes)
@@ -33,19 +40,22 @@ function subgrad_opt(graph::Graph{T}) where T
     tree = one_tree(graph)
     w = sum(x -> weight(x), tree)
     d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
+    #le vecteur d contient le degré de chaque nœud dans le 1-tree
     deg_tour = ones(nb_nodes)*2
+    #deg_tour est ce vers quoi on veut que d converge
     v = d - deg_tour
-    while v != zeros(nb_nodes) && k < 100
+    while v != zeros(nb_nodes) && k < 100 #si v ne contient que des 0 alors on a une tournée
         k = k + 1
         step = step/k
         p = step * v
-        tree = one_tree(change_weight!(graph, p))
+        tree = one_tree(change_weight!(graph, p)) 
+        #comme change_weight! modifie le graphe à chque fois, on a juste besoin d'ajouter le gradient
         w = max(w, sum(x -> weight(x), tree) - 2*sum(p))
         d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
         v = d - deg_tour
     end
     if v == zeros(nb_nodes)
-        return tree, sum(x -> weight(x), tree)
+        return tree, w
     else
         return w
     end
