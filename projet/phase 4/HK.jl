@@ -33,10 +33,10 @@ end
 """Fonction donnant une borne inférieure sur une tournée minimale dans un graphe et 
 permettant éventuellement de trouver une telle tournée"""
 function subgrad_opt(graph::Graph{T}) where T
-    k = 0
     nb_nodes = length(graph.nodes)
+    k = 0
     step = 1
-    p = zeros(nb_nodes)
+    p_tot = zeros(nb_nodes)
     tree = one_tree(graph)
     w = sum(x -> weight(x), tree)
     d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
@@ -48,9 +48,60 @@ function subgrad_opt(graph::Graph{T}) where T
         k = k + 1
         step = step/k
         p = step * v
+        p_tot = p_tot + p
         tree = one_tree(change_weight!(graph, p)) 
         #comme change_weight! modifie le graphe à chque fois, on a juste besoin d'ajouter le gradient
-        w = max(w, sum(x -> weight(x), tree) - 2*sum(p))
+        w = max(w, sum(x -> weight(x), tree) - 2*sum(p_tot))
+        d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
+        v = d - deg_tour
+    end
+    if v == zeros(nb_nodes)
+        return tree, w
+    else
+        return w
+    end
+end
+
+"""Fonction donnant une borne inférieure sur une tournée minimale dans un graphe et 
+permettant éventuellement de trouver une telle tournée. La différence avec subgrad_opt
+est le pas utilisé."""
+function subgrad_opt_bis(graph::Graph{T}) where T
+    k = 1
+    nb_nodes = length(graph.nodes)
+    step = 2
+    period = floor(nb_nodes/2)
+    first_period = true
+    #le comportement dans la boucle while est différent à la première période
+    p_tot = zeros(nb_nodes)
+    tree = one_tree(graph)
+    w = sum(x -> weight(x), tree)
+    d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
+    #le vecteur d contient le degré de chaque nœud dans le 1-tree
+    deg_tour = ones(nb_nodes)*2
+    #deg_tour est ce vers quoi on veut que d converge
+    v = d - deg_tour
+    while step != 0 && period != 0 && v != zeros(nb_nodes) #si v ne contient que des 0 alors on a une tournée
+        p = step * v
+        p_tot = p_tot + p
+        tree = one_tree(change_weight!(graph, p)) 
+        #comme change_weight! modifie le graphe à chque fois, on a juste besoin d'ajouter le gradient
+        w_bis = sum(x -> weight(x), tree) - 2*sum(p_tot)
+        if w < w_bis
+            w = w_bis
+            if k == period
+                period = 2*period
+            end
+        end
+        if w_bis < w && first_period
+            step = 1
+        end
+        if k == period
+            first_period = false
+            period = floor(period/2)
+            step = step/2
+            k = 0
+        end
+        k = k + 1
         d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : nb_nodes]
         v = d - deg_tour
     end
@@ -64,5 +115,10 @@ end
 function hk(filename::String)
     g = make_graph(filename)
     return subgrad_opt(g)
+end
+
+function hk_bis(filename::String)
+    g = make_graph(filename)
+    return subgrad_opt_bis(g)
 end
 
