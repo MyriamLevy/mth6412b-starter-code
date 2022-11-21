@@ -80,5 +80,5 @@ e_14= Edge((n_c,n_f),4)
 E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14]
 
 # Creation du graph
-#graph = make_graph("/Users/alayacare/Documents/Documents - Clélia/PolyMtl/MTH6412/mth6412b-starter-code/instances/stsp/gr21.tsp")
-#println(RSL(graph,1))
+graph = make_graph("C:/Users/adabd/OneDrive - polymtl.ca/Bureau/Poly/A2022/MTH6412B/Projet/Phase1/mth6412b-starter-code/instances/stsp/swiss42.tsp")
+println(RSL(graph,1,"kruskal"))
