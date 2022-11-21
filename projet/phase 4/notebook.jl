@@ -32,6 +32,29 @@ Cette partie correspond au fichier *HK.jl*.
 #### Implémentation de l'algorithme
 """
 
+# ╔═╡ f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
+md"""### Erreur relative avec une tournée optimale en fonction des algorithmes
+
+|  Fichier tsp | Solution optimale  | Solution HK  | Solution RSL  |Erreur relative HK   | Erreur relative RSL   |
+|---|---|---|---|---|---|
+| bayg29.tsp | 1610  |   |   |   |   |
+| bays29.tsp  | 2020  |   |   |   |   |
+| brazil58.tsp  | 25395  |   |   |   |   |
+| brg180.tsp  | 1950  |   |   |   |   |
+| dantzig42.tsp  |699 |   |   |   |   |
+| fri26.tsp  | 937  |   |   |   |   |
+| gr17.tsp  |2085 |   |   |   |   |
+| gr21.tsp  | 2707  |   |   |   |   |
+| gr24.tsp  |1272 |   |   |   |   |
+| gr48.tsp  |5046 |   |   |   |   |
+| gr120.tsp  |6942 |   |   |   |   |
+| hk48.tsp  |11461 |   |   |   |   |
+| pa561.tsp  |2763 |   |   |   |   |
+| swiss42.tsp  |1273 |   |   |   |   |
+
+
+"""
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -53,5 +76,6 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╠═713a3af0-6856-40a0-8e2b-6400a99b75ca
 # ╠═48f99302-57a9-46cf-af99-f837c9b1e39d
 # ╠═230f3695-486d-4124-a993-fe4023c4147e
+# ╠═f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
