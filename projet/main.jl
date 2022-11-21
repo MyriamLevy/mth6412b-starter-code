@@ -12,5 +12,6 @@ function main(filename::String)
         tree,weight = RSL(graph,i)
         push!(weights,weight)
     end
-    println(weights)
+    bestindex = argmin(weights)
+    println(bestindex, RSL(graph,bestindex))
 end
