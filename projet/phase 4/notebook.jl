@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.11
+# v0.19.16
 
 using Markdown
 using InteractiveUtils
@@ -65,7 +65,7 @@ Puis elle génère un tour grâce à la visite en ordre préfixe, à laquelle on
 ```
 Enfin, on calcule la longueur de ce tour :
 ```julia
-weight = 0
+	weight = 0
     for i = 1 : length(tour)-1
         index = findfirst(x -> nodes(x)==(tour[i],tour[i+1]) || nodes(x)==(tour[i+1],tour[i]),edges(graph))
         edge = edges(graph)[index]
@@ -112,19 +112,19 @@ end
 ```
 
 #### Transformation des coûts des arêtes
-La fonction *change_weight!* permet de modifier le poids des arêtes d'un graphe pour l'algorithme de montée. Elle prend en argument un graphe et un vecteur contenant un nombre pour chaque nœud du graphe. Le poids de chaque arête du graphe est augmenté des deux nombres associés à ses deux extrémités. Cette fonction modifie le graphe donné en argument : 
+La fonction *change_weight* permet de modifier le poids des arêtes d'un graphe pour l'algorithme de montée. Elle prend en argument un graphe et un vecteur contenant un nombre pour chaque nœud du graphe. Le poids de chaque arête du graphe est augmenté des deux nombres associés à ses deux extrémités. Enfin, la fonction renvoie un nouveau graphe : 
 
 ```julia
-function change_weight!(graph::Graph{T}, p::Vector{Float64}) where T
-    nodes = graph.nodes
-    edges = graph.edges
+function change_weight(graph::Graph{T}, p::Vector{Float64}) where T
+    nodes = graph.nodes[1 : nb_nodes(graph)]
+    edges = graph.edges[1 : nb_edges(graph)]
     for i = 1 : length(edges)
         n1, n2 = edges[i].nodes
         i1 = findfirst(x -> x==n1, nodes)
         i2 = findfirst(x -> x==n2, nodes)
-        edges[i].weight = edges[i].weight + p[i1] + p[i2]
+        edges[i] = Edge(edges[i].nodes, edges[i].weight + p[i1] + p[i2])
     end
-    return graph
+    return Graph("result", nodes, edges)
 end
 ```
 
@@ -137,7 +137,7 @@ function subgrad_opt(graph::Graph{T}) where T
     nb_nodes = length(graph.nodes)
     k = 0
     step = 1
-    p_tot = zeros(nb_nodes)
+    p = zeros(nb_nodes)
 ```
 Puis on crée un premier *minimum 1-tree* et on calcule son poids et un vecteur contenant le degré de chaque nœud dans ce *minimum 1-tree*. Notre gradient est la différence entre ce vecteur et un vecteur de même taille ne contenant que des 2, c'est-à-dire le dégré de chaque nœud lorsque le *minimum 1-tree* est un tour. Le poids de ce premier *minimum 1-tree* est l'initialisation de notre borne inférieure sur le coût d'une tournée minimale : 
 
@@ -155,13 +155,12 @@ Puis on rentre dans la boucle *while*. On fixe le maximum de passages à 100 si 
 	while v != zeros(nb_nodes) && k < 100 
         k = k + 1
         step = step/k
-        p = step * v
-		p_tot = p_tot + p
+		p = p + step * v
 ```
-Puis on crée un nouveau *minimum 1-tree* dans le graphe modifié (on a seulement besoin d'ajouter le gradient car change_weight! modifie le graphe), on actualise notre borne inférieure en fonction du poids du *minimum 1-tree* et on calcule le nouveau gradient : 
+Puis on crée un nouveau *minimum 1-tree* dans le graphe modifié, on actualise notre borne inférieure en fonction du poids du *minimum 1-tree* et on calcule le nouveau gradient : 
 ```julia
 		tree = one_tree(change_weight!(graph, p)) 
-        w = max(w, sum(x -> weight(x), tree) - 2*sum(p_tot))
+        w = max(w, sum(x -> weight(x), tree) - 2*sum(p))
         d = [length(findall(x -> graph.nodes[i] in x.nodes, tree)) for i = 1 : 	nb_nodes]
         v = d - deg_tour
     end
@@ -170,7 +169,7 @@ Quand on sort de la boucle, si on a trouvé une tournée, on la renvoie ainsi qu
 
 ```julia
 	if v == zeros(nb_nodes)
-        return tree, sum(x -> weight(x), tree) - 2*sum(p_tot)
+        return tree, sum(x -> weight(x), tree) - 2*sum(p)
     else
         return w
     end
@@ -187,7 +186,7 @@ function subgrad_opt_bis(graph::Graph{T}) where T
     step = 2
     period = floor(nb_nodes/2)
     first_period = true
-    p_tot = zeros(nb_nodes)
+    p = zeros(nb_nodes)
 ```
 Comme précédemment, on crée un premier *minimum 1-tree* et on calcule la borne inférieure et le gradient : 
 
@@ -202,10 +201,9 @@ Puis on rentre dans la boucle *while*. Cette fois ci, les conditions d'arrêt so
 
 ```julia
 	while step != 0 && period != 0 && v != zeros(nb_nodes)
-		p = step * v
-        p_tot = p_tot + p
+        p = p + step * v
         tree = one_tree(change_weight!(graph, p)) 
-        w_bis = sum(x -> weight(x), tree) - 2*sum(p_tot)
+        w_bis = sum(x -> weight(x), tree) - 2*sum(p)
 ```
 
 En fonction de la valeur de ce nouveau poids par rapport à la borne inférieure et de l'étape à laquelle on se trouve dans la période, on modifie la borne inférieure, la période ou le pas : 
@@ -240,7 +238,7 @@ La fonction se termine comme la première version :
 
 ```julia
 	if v == zeros(nb_nodes)
-        return tree, sum(x -> weight(x), tree) - 2*sum(p_tot)
+        return tree, sum(x -> weight(x), tree) - 2*sum(p)
     else
         return w
     end
@@ -251,7 +249,11 @@ Les fonctions *hk* et *hk_bis* permettent d'appliquer respectivement *subgrad_op
 """
 
 # ╔═╡ 2c7bf1dc-6aa4-4262-8802-666c189c5935
+md"""### Tests sur un petit graphe
+Cette partie correspond au fichier *test.jl*. 
 
+On crée un graphe complet à 6 nœuds. En appelant *subgrad_opt* puis *subgrad\_opt_bis* sur ce graphe, on obtient 22 comme borne inférieure sur le poids d'une tournée minimale. En appelant *RSL* avec le nœud 1 comme racine, on obtient une tournée de poids 27 mais en prenant le nœud 4, on obtient une tournée de poids 22, on a donc trouvé une tournée optimale.
+"""
 
 # ╔═╡ 265397e5-ae47-49f7-a794-2578404aadc9
 md"""### Erreur relative avec une tournée optimale en fonction des algorithmes"""
@@ -298,7 +300,7 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╔═╡ Cell order:
 # ╟─994c62e6-6856-11ed-1af7-25740f95cd38
 # ╟─713a3af0-6856-40a0-8e2b-6400a99b75ca
-# ╠═48f99302-57a9-46cf-af99-f837c9b1e39d
+# ╟─48f99302-57a9-46cf-af99-f837c9b1e39d
 # ╟─230f3695-486d-4124-a993-fe4023c4147e
 # ╠═2c7bf1dc-6aa4-4262-8802-666c189c5935
 # ╟─265397e5-ae47-49f7-a794-2578404aadc9
