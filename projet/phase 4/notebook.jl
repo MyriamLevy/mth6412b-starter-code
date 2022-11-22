@@ -191,8 +191,11 @@ end
 Les fonctions *hk* et *hk_bis* permettent d'appliquer respectivement *subgrad_opt* et *subgrad\_opt_bis* à des fichiers .tsp.
 """
 
+# ╔═╡ 265397e5-ae47-49f7-a794-2578404aadc9
+md"""### Erreur relative avec une tournée optimale en fonction des algorithmes"""
+
 # ╔═╡ f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
-md"""### Erreur relative avec une tournée optimale en fonction des algorithmes
+md"""
 
 |  Fichier tsp | Solution optimale  | Solution HK  | Solution HK bis  |  Solution RSL Kruskal  | Solution RSL Prim  |  Erreur relative HK   |  Erreur relative HK bis  |  Erreur relative RSL Kruskal  | Erreur relative RSL Prim  |
 |---|---|---|---|---|---|---|---|---|---|
@@ -207,7 +210,12 @@ md"""### Erreur relative avec une tournée optimale en fonction des algorithmes
 | swiss42.tsp  |1273 | 1104,27  | 1244,74  | 1641  | 1641  | 13,3%  | 2,2%  | 28,9  |28,9%|
 
 
+
 """
+
+# ╔═╡ 088f7f19-fa89-4fb1-8812-cd38d43dc94f
+md"""Comme attendu, l'algorithme de RSL trouve une solution dont le poids est inférieur au double de celui de la tournée optimale. 
+La seconde version de l'algorithme de montée est plus efficace que la première et, à une exception près, elle donne une bonne borne inférieure."""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -230,6 +238,8 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╟─713a3af0-6856-40a0-8e2b-6400a99b75ca
 # ╟─48f99302-57a9-46cf-af99-f837c9b1e39d
 # ╟─230f3695-486d-4124-a993-fe4023c4147e
-# ╠═f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
+# ╟─265397e5-ae47-49f7-a794-2578404aadc9
+# ╟─f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
+# ╟─088f7f19-fa89-4fb1-8812-cd38d43dc94f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
