@@ -279,7 +279,10 @@ md"""
 
 # ╔═╡ 088f7f19-fa89-4fb1-8812-cd38d43dc94f
 md"""Comme attendu, l'algorithme de RSL trouve une solution dont le poids est inférieur au double de celui de la tournée optimale. 
-La seconde version de l'algorithme de montée est plus efficace que la première et, à une exception près, elle donne une bonne borne inférieure."""
+La seconde version de l'algorithme de montée est plus efficace que la première et, à une exception près, elle donne une bonne borne inférieure.
+
+Le fichier *main.jl* permet de retrouver ces résultats.
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -302,7 +305,7 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╟─713a3af0-6856-40a0-8e2b-6400a99b75ca
 # ╟─48f99302-57a9-46cf-af99-f837c9b1e39d
 # ╟─230f3695-486d-4124-a993-fe4023c4147e
-# ╠═2c7bf1dc-6aa4-4262-8802-666c189c5935
+# ╟─2c7bf1dc-6aa4-4262-8802-666c189c5935
 # ╟─265397e5-ae47-49f7-a794-2578404aadc9
 # ╟─f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
 # ╟─088f7f19-fa89-4fb1-8812-cd38d43dc94f
