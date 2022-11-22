@@ -250,28 +250,31 @@ end
 Les fonctions *hk* et *hk_bis* permettent d'appliquer respectivement *subgrad_opt* et *subgrad\_opt_bis* à des fichiers .tsp.
 """
 
+# ╔═╡ 265397e5-ae47-49f7-a794-2578404aadc9
+md"""### Erreur relative avec une tournée optimale en fonction des algorithmes"""
+
 # ╔═╡ f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
-md"""### Erreur relative avec une tournée optimale en fonction des algorithmes
+md"""
 
 |  Fichier tsp | Solution optimale  | Solution HK  | Solution HK bis  |  Solution RSL Kruskal  | Solution RSL Prim  |  Erreur relative HK   |  Erreur relative HK bis  |  Erreur relative RSL Kruskal  | Erreur relative RSL Prim  |
 |---|---|---|---|---|---|---|---|---|---|
 | bayg29.tsp | 1610  |  1413,99  | 1599,50  | 2178  | 2178  | 12,2%  | 0,7%  | 35,3%  | 35,3%  |
 | bays29.tsp  | 2020  | 1621,19  | 1938,39  |2621 | 2553  | 19,7%  | 4,0%  | 29,8%  | 26,4%  |
-| brazil58.tsp  | 25395  | 18218,11  | Temps d'excution trop long  |29282   |29282| 28,3%  |   | 15,3%  | 15,3%  |
-| brg180.tsp  | 1950  | 1940  | Temps d'excution trop long  |259290   |259290| 0,5%  |   | 13196,9  | 13196,9|
 | dantzig42.tsp  |699 | 619,27  | 657,37  |  951  | 940  | 11,4%  | 6,0%  | 36,1%  | 34,5%  |
 | fri26.tsp  | 937  | 762,90  | 858,50  |1112   | 1112  | 18,6%  | 8,4%  | 18,7%  | 18,7%  |
 | gr17.tsp  |2085 | 1433,03  | 1892,62  | 2352  | 2352  | 31,3%  | 9,2%  | 12,8%  | 12,8%  |
 | gr21.tsp  | 2707  | 2173,03  | 2581,67  | 3803  | 3728  | 19,7%  | 30,1%  | 13,1%  | 13,1%  |
 | gr24.tsp  |1272 | 1036,27  | 1192,15  | 1607  | 1607  | 18,5%  | 6,3%  | 26,3%  | 26,3%  |
 | gr48.tsp  |5046 | 4120,58  | 4819,08  | 6897  | 6897  | 18,3%  | 4,5%  | 36,7%  | 36,7%  |
-| gr120.tsp  |6942 | 5954,50  | Temps d'excution trop long  |  9007  | 15184  | 14,2%  | TL  | 29,7%  | 118,7%  |
-| hk48.tsp  |11461 |10075,22  | 11172,79  | 15185  | Temps d'excution trop long  |12,1%   | 2,5%  | 32,5%  | ----  |
-| pa561.tsp  |2763 | Temps d'excution trop long  | 3915  | 3915  | 3852  |   | 41,7%  | 41,7%  | 39,4%  |
 | swiss42.tsp  |1273 | 1104,27  | 1244,74  | 1641  | 1641  | 13,3%  | 2,2%  | 28,9  |28,9%|
 
 
+
 """
+
+# ╔═╡ 088f7f19-fa89-4fb1-8812-cd38d43dc94f
+md"""Comme attendu, l'algorithme de RSL trouve une solution dont le poids est inférieur au double de celui de la tournée optimale. 
+La seconde version de l'algorithme de montée est plus efficace que la première et, à une exception près, elle donne une bonne borne inférieure."""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -294,6 +297,8 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╟─713a3af0-6856-40a0-8e2b-6400a99b75ca
 # ╠═48f99302-57a9-46cf-af99-f837c9b1e39d
 # ╟─230f3695-486d-4124-a993-fe4023c4147e
-# ╠═f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
+# ╟─265397e5-ae47-49f7-a794-2578404aadc9
+# ╟─f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
+# ╟─088f7f19-fa89-4fb1-8812-cd38d43dc94f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
