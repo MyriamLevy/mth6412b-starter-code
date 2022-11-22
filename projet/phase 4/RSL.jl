@@ -1,12 +1,6 @@
 include("../phase 3/prim.jl")
 include("../phase 2/kruskal.jl")
 
-
-
-
-
-
-
 """Fonction récursive effectuant la visite d'un arbre en ordre préfixe en partant d'un sommet racine"""
 function prefix_visit(tree::Vector{Edge{T}},s::Node{T}) where T
     subtree = Edge{T}[]
@@ -49,5 +43,4 @@ function RSL(graph::Graph{T}, root_index::Int64, tree_algo::String) where T
 end
 # Creation du graph
 graph = make_graph("/Users/alayacare/Documents/Documents - Clélia/PolyMtl/MTH6412/mth6412b-starter-code/instances/stsp/hk48.tsp")
-println(
 #RSL(graph,1,"prim")
