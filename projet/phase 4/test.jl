@@ -1,4 +1,5 @@
-using Test
+include("../phase 2/kruskal.jl")
+include("../phase 3/prim.jl")
 include("RSL.jl")
 include("HK.jl")
 
@@ -41,12 +42,10 @@ include("HK.jl")
     
 end
 
-#RSL(graph,4)
-#subgrad_opt(graph)
+println(subgrad_opt(graph))
+println(subgrad_opt_bis(graph))
+println(RSL(graph,1,"kruskal"))
+println(RSL(graph,1,"prim"))
+println(RSL(graph,4,"kruskal"))
+println(RSL(graph,4,"prim"))
 
-#gbis = Graph("g", [n_a, n_b,n_c, n_d], [e_1, e_2, e_4, e_3, e_5, e_12])
-# Creation du graph
-#graph= Graph("Exemple",N_exemple,E_exemple)
-#println(RSL(graph,1,"kruskal"))
-#println(RSL(graph,1,"prim"))
-#subgrad_opt(graph)
