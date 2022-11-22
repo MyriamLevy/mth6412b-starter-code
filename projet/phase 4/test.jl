@@ -1,5 +1,7 @@
-using Test
+include("../phase 2/kruskal.jl")
+include("../phase 3/prim.jl")
 include("RSL.jl")
+include("HK.jl")
 
 #Création des noeuds
 n_a = Node("a",1)
@@ -9,6 +11,7 @@ n_d = Node("d",1)
 n_e = Node("e",1)
 n_f = Node("f",1)
 N_exemple= [n_a,n_b, n_c,n_d,n_e,n_f]
+
 #Création des arêtes 
 e_1= Edge((n_a,n_b),4)
 e_2= Edge((n_a,n_c),8)
@@ -27,17 +30,13 @@ e_14= Edge((n_c,n_f),4)
 e_15= Edge((n_e,n_b),4)
 E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14,e_15]
 
- E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14,e_15]
-
- # Creation du graph
- graph= Graph("Exemple",N_exemple,E_exemple)
-
-#RSL(graph,4)
-#subgrad_opt(graph)
-
-gbis = Graph("g", [n_a, n_b,n_c, n_d], [e_1, e_2, e_4, e_3, e_5, e_12])
 # Creation du graph
-graph= Graph("Exemple",N_exemple,E_exemple)
+graph = Graph("Exemple",N_exemple,E_exemple)
+
+println(subgrad_opt(graph))
+println(subgrad_opt_bis(graph))
 println(RSL(graph,1,"kruskal"))
 println(RSL(graph,1,"prim"))
-#subgrad_opt(graph)
+println(RSL(graph,4,"kruskal"))
+println(RSL(graph,4,"prim"))
+

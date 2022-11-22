@@ -191,6 +191,9 @@ end
 Les fonctions *hk* et *hk_bis* permettent d'appliquer respectivement *subgrad_opt* et *subgrad\_opt_bis* à des fichiers .tsp.
 """
 
+# ╔═╡ 2c7bf1dc-6aa4-4262-8802-666c189c5935
+
+
 # ╔═╡ 265397e5-ae47-49f7-a794-2578404aadc9
 md"""### Erreur relative avec une tournée optimale en fonction des algorithmes"""
 
@@ -238,6 +241,7 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╟─713a3af0-6856-40a0-8e2b-6400a99b75ca
 # ╟─48f99302-57a9-46cf-af99-f837c9b1e39d
 # ╟─230f3695-486d-4124-a993-fe4023c4147e
+# ╠═2c7bf1dc-6aa4-4262-8802-666c189c5935
 # ╟─265397e5-ae47-49f7-a794-2578404aadc9
 # ╟─f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
 # ╟─088f7f19-fa89-4fb1-8812-cd38d43dc94f
