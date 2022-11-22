@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.16
+# v0.19.11
 
 using Markdown
 using InteractiveUtils
@@ -14,10 +14,69 @@ md"""Abdou Samad Dicko(2037205), Clélia Merel(2163025), Myriam Lévy(2225114)""
 md"""### Algorithme de Rosenkrantz, Stearns et Lewis
 Cette partie correspond au fichier *RSL.jl*.
 #### Visite en préordre d'un arbre
+La fonction *prefix_visit* est une fonction récursive renvoyant l'ordre de visite préfixe d'un arbre, en prenant en argument cet arbre et un noeud racine. L'algorithme identifie d'abord les enfants directs de la racine, et crée un sous-arbre composé de toutes les arrête de l'arbre qui ne contienne pas la racine :
+```julia
+function prefix_visit(tree::Vector{Edge{T}},s::Node{T}) where T
+    subtree = Edge{T}[]
+    children = Node{T}[]
+    visit_order = Node{T}[]
+    for x in tree
+        if x.nodes[1] == s 
+            push!(children, x.nodes[2])
+        elseif x.nodes[2] == s 
+            push!(children, x.nodes[1])
+        else
+            push!(subtree,x) 
+        end       
+    end
+```
+
+La racine est ajoutée au début de la liste contenant l'ordre de visite des noeuds :
+
+```julia
+    push!(visit_order,s)
+```
+
+Si elle a des enfants, pour chaque enfant la fonction concatène à cette liste l'ordre de visite préfixe du sous-arbre dont l'enfant est la racine :
+```julia
+    for child in children
+        visit_order = vcat(visit_order,prefix_visit(subtree,child))
+    end
+    return visit_order  
+end
+```
 
 #### Implémentation de l'algortihme
+La fonction RSL implémente l'algorithme de Rosenkrantz, Stearns et Lewis. Elle prend en argument un graphe, l'indice d'un noeud du graphe qui sera utilisé comme racine, et une chaîne de caractère qui est soit "kruskal", soit "prim" pour choisir l'algorithme trouvant l'arbre de recouvrement minimal. D'abord elle génère cet arbre de recouvrement :
+```julia
+function RSL(graph::Graph{T}, root_index::Int64, tree_algo::String) where T
+    if tree_algo == "kruskal"
+        tree = kruskal(graph)[1]
+    end
+    if tree_algo == "prim"
+        tree = prim(graph)[1]
+    end
+```
+Puis elle génère un tour grâce à la visite en ordre préfixe, à laquelle on ajoute le noeud racine afin d'avoir effectivement un tour :
+```julia
+    root = nodes(graph)[root_index]
+    tour = prefix_visit(tree,root)
+    push!(tour,tour[1])
+```
+Enfin, on calcule la longueur de ce tour :
+```julia
+weight = 0
+    for i = 1 : length(tour)-1
+        index = findfirst(x -> nodes(x)==(tour[i],tour[i+1]) || nodes(x)==(tour[i+1],tour[i]),edges(graph))
+        edge = edges(graph)[index]
+        weight += edge.weight
+    end
+    return tour,weight
+end
+```
 
-
+#### Observations
+À première vue, en utilisant cette fonction sur les instances qui nous sont données, on obtient bien une solution dont le poids est inférieur à 2 fois celui donné dans le fichier *solution_stsp.txt*, sauf dans le cas de *brg.tsp*. En observant les poids des différentes arrêtes, on comprend vite que c'est parce que ce graphe ne repecte pas l'inégalité triangulaire sur les distances, et il est donc normal que l'algorithme de Rosenkrantz, Stearns et Lewis donne un très mauvais résultat dans ce cas.
 
 """
 
@@ -191,6 +250,9 @@ end
 Les fonctions *hk* et *hk_bis* permettent d'appliquer respectivement *subgrad_opt* et *subgrad\_opt_bis* à des fichiers .tsp.
 """
 
+# ╔═╡ 2c7bf1dc-6aa4-4262-8802-666c189c5935
+
+
 # ╔═╡ 265397e5-ae47-49f7-a794-2578404aadc9
 md"""### Erreur relative avec une tournée optimale en fonction des algorithmes"""
 
@@ -236,8 +298,9 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╔═╡ Cell order:
 # ╟─994c62e6-6856-11ed-1af7-25740f95cd38
 # ╟─713a3af0-6856-40a0-8e2b-6400a99b75ca
-# ╟─48f99302-57a9-46cf-af99-f837c9b1e39d
+# ╠═48f99302-57a9-46cf-af99-f837c9b1e39d
 # ╟─230f3695-486d-4124-a993-fe4023c4147e
+# ╠═2c7bf1dc-6aa4-4262-8802-666c189c5935
 # ╟─265397e5-ae47-49f7-a794-2578404aadc9
 # ╟─f6d7065e-f14b-44fe-bc01-4edad3b3ef6f
 # ╟─088f7f19-fa89-4fb1-8812-cd38d43dc94f
