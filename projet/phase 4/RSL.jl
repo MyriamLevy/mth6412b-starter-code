@@ -41,6 +41,3 @@ function RSL(graph::Graph{T}, root_index::Int64, tree_algo::String) where T
     end
     return tour,weight
 end
-# Creation du graph
-graph = make_graph("/Users/alayacare/Documents/Documents - Clélia/PolyMtl/MTH6412/mth6412b-starter-code/instances/stsp/gr120.tsp")
-RSL(graph,1,"prim")
