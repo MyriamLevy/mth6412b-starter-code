@@ -34,9 +34,11 @@ end
 function RSL(graph::Graph{T}, root_index::Int64, tree_algo::String) where T
     if tree_algo == "kruskal"
         tree = kruskal(graph)[1]
+        println(tree)
     end
     if tree_algo == "prim"
         tree = prim(graph)[1]
+        println(tree)
     end
     root = nodes(graph)[root_index]
     tour = prefix_visit(tree,root)
@@ -80,5 +82,7 @@ e_14= Edge((n_c,n_f),4)
 E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14]
 
 # Creation du graph
-#graph = make_graph("/Users/alayacare/Documents/Documents - Clélia/PolyMtl/MTH6412/mth6412b-starter-code/instances/stsp/gr21.tsp")
-#println(RSL(graph,1))
+graph = make_graph("/Users/alayacare/Documents/Documents - Clélia/PolyMtl/MTH6412/mth6412b-starter-code/instances/stsp/hk48.tsp")
+println(kruskal(graph))
+println(prim(graph))
+#RSL(graph,1,"prim")

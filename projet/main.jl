@@ -9,9 +9,9 @@ function main(filename::String)
     for i = 1 : length(nodes(graph))
         # j = rand(1:length(nodes(graph)))
         # println(j)
-        tree,weight = RSL(graph,i)
+        tree,weight = RSL(graph,i,"kruskal")
         push!(weights,weight)
     end
     bestindex = argmin(weights)
-    println(bestindex, RSL(graph,bestindex))
+    println(bestindex, RSL(graph,bestindex,"kruskal"))
 end
