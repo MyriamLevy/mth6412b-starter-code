@@ -4,7 +4,7 @@ include("RSL.jl")
 include("HK.jl")
 
 
-@testset "RSL" begin
+
     #Création des noeuds
     n_a = Node("a",1)
     n_b = Node("b",1)
@@ -32,15 +32,7 @@ include("HK.jl")
     E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14,e_15]
 
 
-    # Creation du graph
-    graph= Graph("Exemple",N_exemple,E_exemple)
-    tree,weight = kruskal(graph)
-    @test length(tree) == 5
-    @test weight == 13
-    tour,len = RSL(graph,5, "kruskal")
-    @test len >= subgrad_opt(graph)
-    
-end
+
 
 println(subgrad_opt(graph))
 println(subgrad_opt_bis(graph))
