@@ -112,11 +112,13 @@ function subgrad_opt_bis(graph::Graph{T}) where T
     end
 end
 
+"""Première version de l'algortihme de montée pour un fichier .tsp"""
 function hk(filename::String)
     g = make_graph(filename)
     return subgrad_opt(g)
 end
 
+"""Seconde version de l'algortihme de montée pour un fichier .tsp"""
 function hk_bis(filename::String)
     g = make_graph(filename)
     return subgrad_opt_bis(g)
