@@ -1,3 +1,6 @@
+include("../phase 3/prim.jl")
+include("../phase 2/kruskal.jl")
+
 """Fonction construisant un 1-tree dans une graphe. Le premier nœud du graphe est le nœud spécial."""
 function one_tree(graph::Graph{T}) where T
     nodes = graph.nodes
