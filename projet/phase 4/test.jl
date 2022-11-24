@@ -31,7 +31,7 @@ include("HK.jl")
     e_15= Edge((n_e,n_b),4)
     E_exemple=[e_1,e_2,e_3,e_4,e_5,e_6,e_7,e_8,e_9,e_10,e_11,e_12,e_13,e_14,e_15]
 
-
+    graph = Graph("Exemple", N_exemple, E_exemple)
 
 
 println(subgrad_opt(graph))
