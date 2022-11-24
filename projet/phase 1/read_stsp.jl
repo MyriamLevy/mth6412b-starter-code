@@ -1,6 +1,4 @@
-#import Pkg
-#Pkg.add("Plots")
-#using Plots
+using Plots
 
 """Analyse un fichier .tsp et renvoie un dictionnaire avec les données de l'entête."""
 function read_header(filename::String)

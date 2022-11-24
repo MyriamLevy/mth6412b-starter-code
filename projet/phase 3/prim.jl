@@ -45,5 +45,6 @@ function prim(graph::Graph{T}) where T
             end
         end
     end
+    deleteat!(tree, 1)
     return tree, sum(x -> weight(x), tree)
 end

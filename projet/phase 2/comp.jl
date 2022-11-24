@@ -47,7 +47,7 @@ end
 La fonction parcourt la liste des enfants de comp."""
 function in_comp(comp::Comp{T}, node::Node{T}) where T
     for i = 1 : length(get_children(comp))
-        if get_nodes(get_children(comp)[i])[1] == node
+        if get_children(comp)[i][1] == node
             return true
         end
     end
