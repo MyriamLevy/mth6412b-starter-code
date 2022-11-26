@@ -14,3 +14,11 @@ function transform_tour(tour::Vector{Edge{T}}) where T
     end
     nodes_list
 end
+
+function convert_tour(tour::Vector{Node{T}}) where T
+    tour_bis = []
+    for i = 1 : length(tour)
+        push!(tour_bis, parse(Int, tour[i].name))
+    end
+    tour_bis
+end
