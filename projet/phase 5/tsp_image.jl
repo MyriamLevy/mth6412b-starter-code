@@ -16,9 +16,24 @@ function transform_tour(tour::Vector{Edge{T}}) where T
 end
 
 function convert_tour(tour::Vector{Node{T}}) where T
-    tour_bis = []
+    tour_bis = Int64[]
     for i = 1 : length(tour)
         push!(tour_bis, parse(Int, tour[i].name))
     end
     tour_bis
+end
+
+function make_tour(filename::String)
+    graph = make_graph(filename)
+    #hk_result = subgrad_opt_bis(graph)
+    tour, weight = RSL(graph, 1, "prim")
+    #if length(hk_result) == 2
+        #tour, weight = hk_result
+        #tour = transform_tour(tour)
+    #else
+        #tour, weight = RSL(graph, 1, "prim")
+    #end
+    tour = convert_tour(tour)
+    tour = write_tour(filename, tour, weight)
+    return tour
 end
