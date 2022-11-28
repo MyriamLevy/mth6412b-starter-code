@@ -3,7 +3,8 @@ include("../phase 4/HK.jl")
 include("../../shredder-julia/bin/tools.jl")
 
 
-
+"""Fonction transformant une tournée sous forme de liste d'arêtes 
+en une tournée sous forme de liste de nœuds"""
 function transform_tour(tour::Vector{Edge{T}}) where T
     copy = tour[1 : length(tour)]
     start = copy[1].nodes[1]
@@ -21,6 +22,8 @@ function transform_tour(tour::Vector{Edge{T}}) where T
     nodes_list
 end
 
+"""Fonction transformant une liste de nœuds en une liste des entiers 
+correspondant à leur nom"""
 function convert_tour(tour::Vector{Node{T}}) where T
     tour_bis = Int64[]
     for i = 1 : length(tour) - 1
@@ -29,6 +32,8 @@ function convert_tour(tour::Vector{Node{T}}) where T
     tour_bis
 end
 
+"""Fonction créant un fichier .tour d'une tournée trouvée grâce à l'algorithme HK 
+à partir d'un fichier .tsp"""
 function make_tour(filename::String, tourname::String)
     graph = make_graph(filename)
     tour, weight = subgrad_opt_bis(graph)
