@@ -8,7 +8,7 @@ using InteractiveUtils
 md"""
 |Originale | Shuffle   	| Reconstructed	|
 |---	|---	|---	|
-| ![Abstract light painting](LINK GITHUB )|![](LINK GITHUB )  	|   	|
+| ![Abstract light painting](https://raw.githubusercontent.com/MyriamLevy/mth6412b-starter-code/Phase-5/shredder-julia/images/original/abstract-light-painting.png)|![](LINK GITHUB )  	|   	|
 | ![Alaska Rail Road](LINK GITHUB )|   	|   	|
 | ![Blue hour paris](LINK GITHUB )|   	|   	|
 | ![Lower kananaskis lake](LINK GITHUB )	|   	|   	|
