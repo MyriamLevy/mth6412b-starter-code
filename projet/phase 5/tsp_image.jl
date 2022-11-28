@@ -25,14 +25,8 @@ end
 
 function make_tour(filename::String, tourname::String)
     graph = make_graph(filename)
-    #hk_result = subgrad_opt_bis(graph)
-    tour, weight = RSL(graph, 1, "prim")
-    #if length(hk_result) == 2
-        #tour, weight = hk_result
-        #tour = transform_tour(tour)
-    #else
-        #tour, weight = RSL(graph, 1, "prim")
-    #end
+    tour, weight = subgrad_opt_bis(graph)
+    tour = transform_tour(tour)
     tour = convert_tour(tour)
     write_tour(tourname, tour, weight)
     return tour
