@@ -23,7 +23,7 @@ function convert_tour(tour::Vector{Node{T}}) where T
     tour_bis
 end
 
-function make_tour(filename::String)
+function make_tour(filename::String, tourname::String)
     graph = make_graph(filename)
     #hk_result = subgrad_opt_bis(graph)
     tour, weight = RSL(graph, 1, "prim")
@@ -34,6 +34,6 @@ function make_tour(filename::String)
         #tour, weight = RSL(graph, 1, "prim")
     #end
     tour = convert_tour(tour)
-    tour = write_tour(filename, tour, weight)
+    write_tour(tourname, tour, weight)
     return tour
 end
