@@ -1,3 +1,9 @@
+include("../phase 4/RSL.jl")
+include("../phase 4/HK.jl")
+include("../../shredder-julia/bin/tools.jl")
+
+
+
 function transform_tour(tour::Vector{Edge{T}}) where T
     copy = tour[1 : length(tour)]
     start = copy[1].nodes[1]
