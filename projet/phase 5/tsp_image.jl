@@ -17,7 +17,7 @@ end
 
 function convert_tour(tour::Vector{Node{T}}) where T
     tour_bis = Int64[]
-    for i = 1 : length(tour)
+    for i = 1 : length(tour) - 1
         push!(tour_bis, parse(Int, tour[i].name))
     end
     tour_bis
