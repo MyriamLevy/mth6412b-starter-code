@@ -72,7 +72,7 @@ function reconstruct_picture(tour_filename::String, input_name::String, output_n
 			node = parse(Int, line)
 			if node == -1
 				break
-			else if node != 1
+			elseif node != 1
 				push!(tour, node - 1)
 			end
 		end
