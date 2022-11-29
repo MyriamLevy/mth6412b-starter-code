@@ -1,6 +1,6 @@
 include("../phase 4/RSL.jl")
 include("../phase 4/HK.jl")
-include("../../shredder-julia/bin/tools.jl")
+include("shredder-julia/bin/tools.jl")
 
 
 """Fonction transformant une tournée sous forme de liste d'arêtes 
