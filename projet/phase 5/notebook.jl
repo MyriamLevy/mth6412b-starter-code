@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.11
+# v0.19.16
 
 using Markdown
 using InteractiveUtils
@@ -72,9 +72,14 @@ end
 Grâce à la fonction *reconstruct_picture*, nous avons maintenant tout ce qu'il faut pour reconstruire les images déchiquetées !
 """
 
+# ╔═╡ 2914981e-1832-403a-aa44-ef11969843f4
+md"""### Résultats
+Les tournées obtenues se trouvent dans le dossier *tours* et les images dans le dossier *images reconstruites*. Ci-dessous, on peut comparer les images obtenues avec les originales. On voit que notre implémentation fonctionne très bien, à l'exception que les images sont coupées en deux à l'endroit qui correspond au passage par le nœud 0. On pourrait tenter de remédier à ce problème en forçant la tournée à commencer par ce nœud.
+"""
+
 # ╔═╡ 76767d20-6f35-11ed-00c8-a9b6c983afdd
 md"""
-|Originale | Shuffle   	| Reconstructed	| Longueur de la meilleure tournée	|
+|Originale | Déchiquetée   	| Reconstruite	| Longueur de la meilleure tournée	|
 |---	|---	|---	|---	|
 | ![Abstract light painting](https://raw.githubusercontent.com/MyriamLevy/mth6412b-starter-code/Phase-5/shredder-julia/images/original/abstract-light-painting.png)|![Abstract light painting](https://raw.githubusercontent.com/MyriamLevy/mth6412b-starter-code/Phase-5/shredder-julia/images/shuffled/abstract-light-painting.png)|![Abstract light painting](https://raw.githubusercontent.com/MyriamLevy/mth6412b-starter-code/Phase-5/projet/phase%205/images%20reconstruites/light.png)| 1,2315  	|
 | ![Lower kananaskis lake](https://raw.githubusercontent.com/MyriamLevy/mth6412b-starter-code/Phase-5/shredder-julia/images/original/lower-kananaskis-lake.png)	|![Lower kananaskis lake](https://raw.githubusercontent.com/MyriamLevy/mth6412b-starter-code/Phase-5/shredder-julia/images/shuffled/lower-kananaskis-lake.png)	|![Lower kananaskis lake](https://raw.githubusercontent.com/MyriamLevy/mth6412b-starter-code/Phase-5/projet/phase%205/images%20reconstruites/lake.png)   	|   4,2266	|
@@ -106,6 +111,7 @@ project_hash = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
 # ╟─ec313840-ba42-4713-a4a3-bd6d83cfa766
 # ╟─706f9a6f-c122-491b-8a8c-e73808f36405
 # ╟─7faec73f-20ca-4641-ab63-b57ea3792bbc
-# ╠═76767d20-6f35-11ed-00c8-a9b6c983afdd
+# ╟─2914981e-1832-403a-aa44-ef11969843f4
+# ╟─76767d20-6f35-11ed-00c8-a9b6c983afdd
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
