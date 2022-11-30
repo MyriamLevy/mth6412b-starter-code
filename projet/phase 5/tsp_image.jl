@@ -32,6 +32,19 @@ function convert_tour(tour::Vector{Node{T}}) where T
     tour_bis
 end
 
+"""Fonction effectuant une permutation cyclique sur un tour pour le faire débuter par le nœud 1"""
+function change_tour(tour::Vector{Int})
+    aux=Int[]
+    i = 1
+    while tour[1] != 1
+        push!(aux, tour[1])
+        popfirst!(tour)
+    end
+    tour = vcat(tour, aux)
+    return tour
+end
+
+
 """Fonction créant un fichier .tour d'une tournée trouvée grâce à l'algorithme HK 
 à partir d'un fichier .tsp"""
 function make_tour(filename::String, tourname::String)
@@ -39,6 +52,7 @@ function make_tour(filename::String, tourname::String)
     tour, weight = subgrad_opt_bis(graph)
     tour = transform_tour(tour)
     tour = convert_tour(tour)
+    tour = change_tour(tour)
     write_tour(tourname, tour, weight)
     return tour
 end

@@ -1,15 +1,6 @@
 include("tsp_image.jl")
 
-make_tour("shredder-julia/tsp/instances/abstract-light-painting.tsp", "tours/light.tour")
-make_tour("shredder-julia/tsp/instances/lower-kananaskis-lake.tsp", "tours/lake.tour")
-make_tour("shredder-julia/tsp/instances/nikos-cat.tsp", "tours/cat.tour")
-make_tour("shredder-julia/tsp/instances/pizza-food-wallpaper.tsp", "tours/pizza.tour")
-make_tour("shredder-julia/tsp/instances/the-enchanted-garden.tsp", "tours/garden.tour")
-make_tour("shredder-julia/tsp/instances/tokyo-skytree-aerial.tsp", "tours/tokyo.tour")
-
-reconstruct_image("tours/light.tour", "shredder-julia/images/shuffled/abstract-light-painting.png", "images reconstruites/light.png")
-reconstruct_image("tours/lake.tour", "shredder-julia/images/shuffled/lower-kananaskis-lake.png", "images reconstruites/lake.png")
-reconstruct_image("tours/cat.tour", "shredder-julia/images/shuffled/nikos-cat.png", "images reconstruites/cat.png")
-reconstruct_image("tours/pizza.tour", "shredder-julia/images/shuffled/pizza-food-wallpaper.png", "images reconstruites/pizza.png")
-reconstruct_image("tours/garden.tour", "shredder-julia/images/shuffled/the-enchanted-garden.png", "images reconstruites/garden.png")
-reconstruct_image("tours/tokyo.tour", "shredder-julia/images/shuffled/tokyo-skytree-aerial.png", "images reconstruites/tokyo.png")
+function main(tsp_name::String, tour_name::String, shuffled_image_name::String, reconstructed_image_name::String)
+    make_tour(tsp_name, tour_name)
+    reconstruct_picture(tour_name, shuffled_image_name, reconstructed_image_name)
+end
